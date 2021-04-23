@@ -1,0 +1,35 @@
+version: "2"
+
+services:
+
+   xsrc:
+      container_name: xsrc
+      restart: always
+      image: registry.cn-beijing.aliyuncs.com/rapid7/apache-php:php73
+      environment:
+        - TZ=Asia/Shanghai
+      ports:
+        - 8060:80
+      volumes:
+        - .:/var/www/app
+      links:
+        - mysql
+      depends_on:
+        - mysql
+
+
+   mysql:
+      container_name: mysql
+      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/mysql:5.7'
+      volumes:
+        - /srv/docker.mysql_data2:/var/lib/mysql
+        - ./mysql.conf.d/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      restart: always
+      ports:
+        - "3306:3306"
+      environment:
+       - MYSQL_USER=admin007
+       - MYSQL_PASSWORD=myadmin@816
+       - MYSQL_DATABASE=qydldb
+       - MYSQL_ROOT_PASSWORD=test@1q2w2e4R
+

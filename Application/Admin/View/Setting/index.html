@@ -1,0 +1,118 @@
+<include file="Public/header" title="基础配置  - 企业安全应急响应与缺陷管理中心" setting_status="open" setting_color="#6164C1;"/>
+
+<div class="main-content">
+<div class="page-title">
+<ol class="breadcrumb no-bg pl0">
+<li>
+<i class="icon-users"></i> <a href="{:U('setting/index')}">系统配置</a>
+</li>
+<li>
+<a href="javascript:;">基础配置</a>
+</li>
+</ol>
+</div>
+<div class="card bg-white m-b">
+<div class="card-header">
+站点信息
+<div class="card-controls">
+<a href="javascript:;" class="card-collapse" data-toggle="card-collapse">
+<i class="card-icon-collapse"></i>
+</a>
+</div>
+</div>
+<div class="card-block">
+<form action="{:U('setting/update')}" method="post">
+	<div class="form-group">
+		<label>站点名称（中文）</label>
+		<input class="form-control m-b input-sm" type="text" name="site_name_cn" value="{$site_name_cn}">
+	</div>
+	<div class="form-group">
+		<label>站点缩写（例如：TSRC）</label>
+		<input class="form-control m-b input-sm" type="text" name="site_abbrev" value="{$site_abbrev}">
+	</div>
+	<div class="form-group">
+		<label>站点名称（英文）</label>
+		<input class="form-control m-b input-sm" type="text" name="site_name_en" value="{$site_name_en}">
+	</div>
+	<div class="form-group">
+		<label>关于站点（超链接）</label>
+		<input class="form-control m-b input-sm" type="text" name="site_about" value="{$site_about}">
+	</div>
+	<div class="form-group">
+		<label>加入我们（超链接）</label>
+		<input class="form-control m-b input-sm" type="text" name="site_career" value="{$site_career}">
+	</div>
+	<div class="form-group">
+		<label>站点介绍</label>
+		<textarea class="form-control m-b input-sm" type="text" name="site_intro">{$site_intro}</textarea>
+	</div>
+	<div class="form-group">
+		<label>统计代码</label>
+		<textarea class="form-control m-b input-sm" type="text" name="site_analytics">{$site_analytics}</textarea>
+	</div>
+	<div class="form-group">
+		<label>版权信息</label>
+		<input class="form-control m-b input-sm" type="text" name="site_copyright" value="{$site_copyright}">
+	</div>
+
+</div>	
+</div>
+
+<div class="card bg-white m-b">
+<div class="card-header">
+联系方式
+</div>	
+<div class="card-block">
+	<div class="form-group">
+		<label>联系QQ</label>
+		<input class="form-control m-b input-sm" type="text" name="site_qq" value="{$site_qq}" >
+	</div>
+	<div class="form-group">
+		<label>联系邮箱</label>
+		<input class="form-control m-b input-sm" type="text" name="site_email" value="{$site_email}" >
+	</div>
+		<div class="form-group">
+            <label for="page-title">微信公众号<small> (*建议上传高160像素，宽160像素的图片)</small>: </label>
+            <input id="wechatImg" type="file" name="photo" onchange="submit_wechat_offical_account_picture();">
+        </div>
+		<div class="form-group">
+            <label for="page-title">配图预览: </label>
+			<br/>
+            <img style="height:160px;width;250px;" id="site_wechat_preview" src="{$site_wechat}">
+			<input id="site_wechat" name="site_wechat" type="hidden" value="{$site_wechat}">
+        </div>
+	<div class="form-group">
+		<input type="hidden" name="token" value="{:session('token')}"/>
+		<button class="btn btn-success" type="submit" >更新</button>
+	</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+function submit_wechat_offical_account_picture(){
+				$("#imgWait").show();
+                var formData = new FormData();
+                formData.append("photo", document.getElementById("wechatImg").files[0]);   
+                $.ajax({
+                    url: "__ROOT__/admin.php?m=Admin&c=blog&a=upload",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.code == "200") {
+							var figureurl = "__PUBLIC__/Uploads/" + data.savepath;
+							$("#site_wechat_preview").attr("src",figureurl);
+							$("#site_wechat").attr("value",figureurl);
+                        }else{
+                            alert('上传失败请重试');
+                        }
+                    },
+                    error: function () {
+						alert('上传失败请重试');
+                    }
+                });
+}
+</script>
+<include file="Public/footer" />

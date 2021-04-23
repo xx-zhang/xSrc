@@ -1,0 +1,47 @@
+<include file="Public/header" title="积分记录" banner_selected="nav_item-active"/>
+ <div class="container container-user container-user-coins">
+        <div>
+            <div class="section section-user">
+                <div class="section_user">
+                    <div class="user_body">
+                        <div class="body_header" style="margin-bottom: 0rem;">
+                            <div class="header_title">
+                                <span class="title_mine"><span class="mine_text">我有</span><span class="mine_num"> {$account['jinbi']} </span><span class="mine_text">安全币</span></span>
+                            </div>
+                            <div class="header_sift">
+                                <!--<div class="mod-form-sift mod-form-sift-tab">
+                                    <div class="sift_tab sift_tab-active">
+                                        <div class="">所有日期</div>
+                                    </div>
+                                    <div class="sift_tab">
+                                        <div class="">近1个月</div>
+                                    </div>
+                                    <div class="sift_tab">
+                                        <div class="">近3个月</div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="body_content">
+                            <div class="mod-sheet-user-coins">
+                                <ul class="sheet_list">
+								<foreach name="record" item="v">
+                                    <li class="list_item">
+                                        <div>
+                                            <div class="item_content">
+                                                <h3>{$v.content}</h3>
+                                                <span>{$v.time|date="Y/m/d",###}</span>
+                                            </div>
+                                            <p class="item_num colortips-orange">{$v.name}</p>
+                                        </div>
+                                    </li>
+								</foreach>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<include file="Public/footer" />

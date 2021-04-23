@@ -1,0 +1,146 @@
+<include file="Public/header" title="贡献榜" hall_banner="dropdown_item-active"/>
+  <div class="container container-rank">
+        <div>
+            <div class="section section-mobile">
+                <div class="section_mobile">
+                    <div class="mobile_header">
+                        <div class="header_title">
+                            <span class="title_name">贡献榜</span>
+                        </div>
+                        <div class="header_sift">
+                            <ul class="mod-grouptabs">
+								<li id="total_count" class="grouptabs_item grouptabs_item-active">
+                                    <a href="{:U('hall/index')}">总排行榜</a>
+                                </li>
+                                <li id="year_count" class="grouptabs_item">
+                                    <a href="javascript:query_hall('year');">年排行榜</a>
+                                </li>
+                                <li id="month_count" class="grouptabs_item">
+                                    <a href="javascript:query_hall('month');">月排行榜</a>
+                                </li>
+                            </ul>
+
+                            <div class="mod-form-sift mod-form-sift-select">
+                                <div class="sift_select">
+                                    <select name="" id="year_val">
+                                        <option value="all">全部</option>
+										<foreach name="year_hub" item="year">
+                                        <option value="{$year}">{$year}年</option>
+                                        </foreach>
+                                    </select>
+                                    <div class="shape-triangle"></div>
+                                    <div class="shape-line-vertical"></div>
+                                </div>
+                                <div class="sift_select" onchange="query_hall_by_day();">
+                                    <select name="" id="month_val">
+										<option value="all">全部</option>
+                                        <option value="1">1月</option>
+										<option value="2">2月</option>
+										<option value="3">3月</option>
+										<option value="4">4月</option>
+										<option value="5">5月</option>
+										<option value="6">6月</option>
+										<option value="7">7月</option>
+										<option value="8">8月</option>
+										<option value="9">9月</option>
+										<option value="10">10月</option>
+										<option value="11">11月</option>
+										<option value="12">12月</option>
+                                    </select>
+                                    <div class="shape-triangle"></div>
+                                    <div class="shape-line-vertical"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile_content">
+                        <div class="mod-sheet-rank">
+                            <ul id="tbody" class="sheet_list">
+								<foreach name="user" key="k" item="v">
+                                <li class="list_item item-rank-{$k+1}">
+                                    <a href="{:U('hall/view?pid=')}{$v['pid']}">
+                                        <div class="item_ranknum"><i>{$k+1}</i></div>
+                                        <div class="item_content">
+                                            <h3>{$v['username']}</h3>
+                                            <span>{$v['team']}</span>
+                                        </div>
+                                        <p class="item_rankscore"><span class="rankscore_score">{$v['sum_points']}</span><span>分</span></p>
+                                    </a>
+                                </li>
+								</foreach>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script>
+		function query_hall(range_val){
+							$.ajax({
+								url: "__ROOT__/index.php?m=user&c=hall&a=sortdata",
+								type: "POST",
+								data: {range:range_val},
+								success: function (data) {
+									var myDate = new Date();
+									var year_num = myDate.getFullYear();
+									var month_num = myDate.getMonth()+1;
+									if (range_val=="year"){
+										$("#total_count").attr("class","grouptabs_item");
+										$("#month_count").attr("class","grouptabs_item");
+										$("#year_count").attr("class","grouptabs_item grouptabs_item-active");
+										$("select option").removeAttr("selected");
+										$("#year_val")>$("[value|='" + year_num + "']").attr('selected','selected');
+									} else {
+										$("#total_count").attr("class","grouptabs_item");
+										$("#year_count").attr("class","grouptabs_item");
+										$("#month_count").attr("class","grouptabs_item grouptabs_item-active");
+										$("#year_val")>$("[value|='" + year_num + "']").attr('selected','selected');
+										$("#month_val")>$("[value|='" + month_num + "']").attr('selected','selected');
+									}
+									if (data.status == "1") {
+										$("#tbody").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											$("#tbody").append("<li class=\"list_item item-rank-"+ index +"\"><a href=\"{:U('hall/view?pid=')}"+ item['pid'] +"\"><div class=\"item_ranknum\"><i>"+index+"</i></div><div class=\"item_content\"><h3>"+ item['username'] +"</h3><span>"+ item['team'] +"</span></div><p class=\"item_rankscore\"><span class=\"rankscore_score\">"+ item['sum_points'] +"</span><span>分</span></p></a></li>");
+										});
+									}else{
+										$("#tbody").empty();
+									}
+									//$("#imgWait").hide();
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+		}
+		
+		function query_hall_by_day(){
+							var year_val = $("#year_val").val();
+							var month_val = $("#month_val").val();
+							$.ajax({
+								url: "__ROOT__/index.php?m=user&c=hall&a=sortdata",
+								type: "POST",
+								data: {range:'custom',year:year_val,month:month_val},
+								success: function (data) {
+									$("#total_count").attr("class","grouptabs_item");
+									$("#year_count").attr("class","grouptabs_item");
+									$("#month_count").attr("class","grouptabs_item grouptabs_item-active");
+									if (data.status == "1") {
+										$("#tbody").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											$("#tbody").append("<li class=\"list_item item-rank-"+ index +"\"><a href=\"{:U('hall/view?pid=')}"+ item['pid'] +"\"><div class=\"item_ranknum\"><i>"+index+"</i></div><div class=\"item_content\"><h3>"+ item['username'] +"</h3><span>"+ item['team'] +"</span></div><p class=\"item_rankscore\"><span class=\"rankscore_score\">"+ item['sum_points'] +"</span><span>分</span></p></a></li>");
+										});
+									}else{
+										$("#tbody").empty();
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+		}
+		</script>
+<include file="Public/footer"/>

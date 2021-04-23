@@ -1,0 +1,37 @@
+<include file="Public/header" title="公告" annoucment_banner="nav_item-active"/>
+        <div class="container container-announcement">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="#">公告新闻</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-announcement">
+                    <div class="section_announcement">
+                        <div class="announcement_nav">
+                            <h1>公告新闻</h1>
+                            <!--<div class="mod-rss">
+                                <a class="mod-btn mod-btn-black" href=""><i class="i-rss"></i>RSS订阅</a>
+                            </div>-->
+                        </div>
+                        <div class="announcement_list">
+                            <ul>
+								<foreach name="model" item="v">
+										<li>
+											<a class="list_title" href="{:U('page/view?id=')}{$v.id}" target="_blank">{$v.title}</a>
+											<span class="list_date">{$v.update_time|date="Y/m/d",###}</span>
+										</li>
+								</foreach>
+                            </ul>
+                        </div>
+
+                        <div class="mod-pageflip">
+                           {$page}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<include file="Public/footer"/>

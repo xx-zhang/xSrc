@@ -1,0 +1,74 @@
+<include file="Public/header" title="贡献榜" hall_banner="nav_item-active"/>
+        <div class="container container-rankdetail">
+            <div>
+                <!-- 用户浮层 panel -->
+                <div class="section section-floatpanel">
+
+                    <!-- 顶部浮动块 -->
+                    <div class="section_floatpanel">
+                        <div>
+                            <div class="floatpanel_upperpanel">
+                                <div class="upperpanel_avatar">
+                                    <img class="mod-avatar mod-avatar-100" src="__PUBLIC__/Uploads/{$binfo['avatar']}" alt="">
+                                </div>
+
+                                <div class="upperpanel_description">
+                                    <p class="description_name">{$binfo['username']}</p>
+                                    <!--<p>TSRC资深安全研究员</p>-->
+                                    <p>团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;队 : {$binfo['team']}</p>
+                                    <p>个性签名 : {$binfo['description']}</p>
+                                </div>
+                            </div>
+                            <div class="floatpanel_lowerpanel">
+                                <div>
+                                    <p>{$num}个</p>
+                                    <p class="lowerpanel_item">漏洞数</p>
+                                </div>
+                                <div>
+                                    <p>{$binfo['jifen']}分</p>
+                                    <p class="lowerpanel_item">贡献值</p>
+                                </div>
+                                <div>
+                                    <p>{$highranknum}个</p>
+                                    <p class="lowerpanel_item">高危报告</p>
+                                </div>
+                                <div>
+                                    <p>{$redeem_count}件</p>
+                                    <p class="lowerpanel_item">礼品兑换</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="section section-records">
+				
+                    <div class="section_records">
+													                               
+                        <div class="records_list records_list-reward" style="display: block;">
+
+                            <div class="list_item list-reward_item list-reward_item-2015">
+                                <ul>
+                                    <li>
+                                        <div class="item_leftblock">
+                                            <img class="item_rewardpic" src="" alt="">
+                                            <div>
+                                                <p class="item_rewardname">现金8000元</p>
+                                                <p class="item_rewardcost">安全币兑换</p>
+                                            </div>
+                                        </div>
+                                        <div class="item_date">2015年8月24日</div>
+                                    </li>
+                                   
+                                </ul>
+
+                            </div>
+
+                        </div>
+						
+                    </div>
+                </div>-->
+            </div>
+</div>
+<include file="Public/footer"/>

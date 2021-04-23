@@ -1,0 +1,49 @@
+<include file="Public/header" title="贡献榜" hall_banner="dropdown_item-active"/>
+  <div class="container container-rankdetail">
+        <div>
+            <!-- 用户浮层 panel -->
+            <div class="section section-floatpanel">
+
+                <!-- 顶部浮动块 -->
+                <div class="section_floatpanel">
+                    <div>
+                        <div class="floatpanel_upperpanel">
+                            <div class="upperpanel_avatar">
+                                <img class="mod-avatar mod-avatar-70" src="__PUBLIC__/Uploads/{$binfo['avatar']}" alt="">
+                                <div class="avatar_circle"></div>
+                            </div>
+
+                            <div class="upperpanel_description">
+                                <p class="description_name">{$binfo['username']}</p>
+                                <!--<p>TSRC资深安全研究员</p>-->
+                                <p>团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;队 : {$binfo['team']}</p>
+                                <p>个性签名 : {$binfo['description']}</p>
+                            </div>
+                        </div>
+                        <div class="floatpanel_lowerpanel">
+                            <div>
+                                <p>{$num}个</p>
+                                <p class="lowerpanel_item">漏洞数</p>
+                            </div>
+                            <div>
+                                <p>{$binfo['jifen']}分</p>
+                                <p class="lowerpanel_item">贡献值</p>
+                            </div>
+                            <div>
+                                <p>{$highranknum}个</p>
+                                <p class="lowerpanel_item">高危报告</p>
+                            </div>
+                            <div>
+                                <p>{$redeem_count}件</p>
+                                <p class="lowerpanel_item">礼品兑换</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+<include file="Public/footer"/>

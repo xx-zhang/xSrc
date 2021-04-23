@@ -1,0 +1,58 @@
+<include file="Public/header" title="兑换中心" gift="navselected"/>
+<div class="container container-user container-user-shop">
+        <div>
+            <div class="section section-user">
+                <div class="section_user">
+                    <div class="user_body">
+                        <div class="body_header">
+                            <div class="header_title">
+                                <span class="title_mine"><span class="mine_text">我有</span><span class="mine_num"> {$order_num} </span><span class="mine_text">个礼品</span></span>
+                            </div>
+                            <div class="header_sift">
+                                <!--<div class="mod-form-search">
+                                    <input class="form-search_input" type="text" placeholder="搜索我的礼品">
+                                    <input class="form-search_submit" type="submit" value="">
+                                </div>
+
+                                <div class="mod-form-sift mod-form-sift-tab">
+                                    <div class="sift_tab sift_tab-active">
+                                        <div class="">所有礼品</div>
+                                    </div>
+                                    <div class="sift_tab">
+                                        <div class="">我兑换的</div>
+                                    </div>
+                                    <div class="sift_tab">
+                                        <div class="">赠送我的</div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="body_content">
+                            <div class="mod-sheet-user-shop">
+                                <ul class="sheet_list">
+									<foreach name="info" item="v">
+                                    <li class="list_item">
+                                        <div>
+                                            <a class="item_pic" href="#">
+                                                <img src="__PUBLIC__/Mobile/images/gifts.png" alt="">
+                                            </a>
+                                            <div class="item_info">
+                                                <a class="info_name">{$v.gid}</a>
+                                                <span class="info_state">状态：<if condition="$v.finish eq 1"><span class="colortips-orange">已确认</span>
+												<elseif condition="$v.finish eq 0" /><span class="colortips-blue">待收货</span>
+												<elseif condition="$v.finish eq 2" /><span class="colortips-green">已完成</span>
+												</if></span>
+                                                <span class="info_price"><span class="price_num">{$v.price}</span>安全币 x{$v.num} 件</span>
+                                            </div>
+                                        </div>
+                                    </li>
+									</foreach>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<include file="Public/footer" />

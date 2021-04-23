@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <title>[title] | {$site_name_cn}安全应急响应中心</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+        <meta name="description" content="{$site_name_cn}安全应急响应中心,{$site_name_en} Security Response Center">
+        <meta name="keywords" content="{$site_name_cn},{$site_name_en},安全团队,应急响应,{$site_name_cn}安全应急响应中心,{$site_name_en} Security Response Center">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+        <link rel="icon" href="__PUBLIC__/Index/images/logo.ico">
+        <link rel="stylesheet" href="__PUBLIC__/Index/css/main.css">
+        <!--[if (gte IE 6)&(lte IE 8)]>
+        兼容 CSS3 选择器
+        <script type="text/javascript" src="__PUBLIC__/Index/js/selectivizr.min.js"></script>
+        兼容 media query
+        <script type="text/javascript" src="__PUBLIC__/Index/js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="header">
+            <div>
+                <div class="logo">
+                    <a href="">
+                        <div class="logo_pic">
+                        </div>
+                        <div class="logo_name">
+                            <p>{$site_name_cn}安全应急响应中心</p>
+                            <p>{$site_name_en} Security Response Center</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="userpanel">
+                    <div class="userpanel_line">
+                        <div></div>
+                    </div>
+					<empty name="username">
+                    <div class="userpanel_login" style="display:block">
+                        <a class="mod-btn mod-btn-black login-btn-1 login-qq" href="__ROOT__/user.php?m=user&c=post&a=add">登录账户</a>
+                    </div>
+					<else /> 
+                    <div class="userpanel_user">
+                        <img class="user_avatar mod-avatar-30" src="__PUBLIC__/Uploads/{:session('avatar')}" alt="">
+                        <span class="user_username">{:session('username')}<if condition="session('mnum') eq 0"><else/><i class="i-header-message">{:session('mnum')}</i></if></span>
+                        <i class="user_arrow"></i>
+                        <div class="user_menu">
+                            <ul class="menu_list">
+                                <li class="list_item list_item-user">
+                                    <a href="__ROOT__/user.php">
+                                        <i class="item_icon"></i>
+                                        <span class="item_text">个人主页</span>
+                                    </a>
+                                </li>
+                                <li class="list_item list_item-message">
+                                    <a href="__ROOT__/user.php?m=user&c=message&a=index">
+                                        <i class="item_icon"></i>
+                                        <span class="item_text">消息中心</span>
+                                        <i class="item_icon-message">{:session('mnum')}</i>
+                                    </a>
+                                </li>
+                                <li class="list_item list_item-account">
+                                    <a href="__ROOT__/user.php?m=user&c=info&a=index">
+                                        <i class="item_icon"></i>
+                                        <span class="item_text">账户设置</span>
+                                    </a>
+                                </li>
+                                <li class="list_item list_item-logout">
+                                    <a href="{:U('login/logout')}">
+                                        <i class="item_icon"></i>
+                                        <span class="item_text">注销</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+					</empty>
+				</div>
+
+                <div class="nav">
+                    <ul>
+                        <li class="[index_banner]"><a href="{:U('index/index')}">首页</a></li>
+                        <li class="[banner_selected]"><a href="__ROOT__/user.php?m=user&c=post&a=add">提交漏洞</a></li>
+                        <li class="[annoucment_banner]"><a href="{:U('page/index')}">公告</a></li>
+						<li class="[blog_banner]"><a href="{:U('blog/index')}">博客</a></li>
+						<li class="[hall_banner]"><a href="{:U('hall/index')}">贡献榜</a></li>
+                        <li class="[gift_banner]"><a href="{:U('gift/index')}">礼品兑换</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>

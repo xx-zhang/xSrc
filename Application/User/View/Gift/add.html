@@ -1,0 +1,194 @@
+<include file="Public/header" title="订单确认" gift_banner="navselected"/>
+        <div class="container container-shoporder">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title">订单确认</p>
+                    </div>
+                </div>
+
+                <div class="section section-orderpanel">
+                    <div class="section_orderpanel">
+                        <div class="orderpanel_check">
+                            <div class="check_leftblock">
+                                <div class="leftblock_pic">
+                                    <img src="{$gift.url}" alt="">
+                                </div>
+                                <div class="leftblock_info">
+                                    <h4>{$gift.title}</h4>
+									<h3>库存：{$gift.stock} 个</h3>
+                                </div>
+                            </div>
+                            <div class="check_rightblock">
+                                <div class="rightblock_address">
+                                    <h4 class="address_title">
+                                        1. 选择收货地址
+                                    </h4>
+                                    <ul class="address_select">
+										<foreach name="info" item="v">
+                                        <if condition="$v.default eq 1"><li address="{$v.id}" id="address_{$v.id}" onclick="select_address('{$v.id}')" class="mod-address mod-address-added mod-address-added-default" select="selected" style="border-color:#007cfa;"><else /><li id="address_{$v.id}" onclick="select_address('{$v.id}')" address="{$v.id}" class="mod-address mod-address-added"></if>
+                                            <p class="address_acceptor">
+                                                <span class="acceptor_name">{$v.realname}</span>
+                                                <span class="acceptor_phone">{$v.mobile}</span>
+                                            </p>
+                                            <p class="address_detail">{$v.adetail}</p>
+                                            <!--<div class="address_change">
+                                                 <span class="change_setdefault">设为默认</span><a href="javascript:query_address({$v.id});"><i class="i-address-modify"></i></a> | <a href="javascript:delete_address({$v.id});"><i class="i-address-delete"></i></a>
+                                            </div>-->
+                                            <i class="i-mod-address-default"></i>
+                                        </li>
+										</foreach>
+                                        
+                                        <a href="{:U('info/index')}"><li class="mod-address mod-address-add">
+                                            <i></i><span>添加新地址</span>
+                                        </li></a>
+
+                                    </ul>
+                                </div>
+
+                                <div class="rightblock_num">
+                                    <h4 class="num_title">
+                                        2. 确认兑换数量
+                                    </h4>
+                                    <div class="num_selectnum">
+                                        <div class="mod-form-numselector">
+                                            <a href="javascript:numminus();">
+                                                -
+                                            </a>
+                                            <input id="redeemgoods" type="text" value="1">
+                                            <a href="javascript:numplus();">
+                                                +
+                                            </a>
+                                        </div>
+
+                                        <span class="selectnum_calculate"> x <span class="calculate_unitprice"><span class="unitprice_num">{$gift.price}</span> 安全币</span> = <span class="calculate_totalprice"><span id="total_price" class="totalprice_num">{$gift.price}</span> 安全币</span></span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="orderpanel_confirm">
+                            <div class="confirm_leftblock">
+                                <a class="mod-btn mod-btn-black" href="javascript:window.history.back();">返&nbsp;&nbsp;回</a>
+                            </div>
+                            <div class="confirm_rightblock">
+                                <div class="rightblock_balance">
+                                    <p class="balance_title">兑换后账户余额</p>
+                                    <p class="balance_num">
+                                        <span>{$account.jinbi}</span> - <span id ="confirm_total_price" >{$gift.price}</span> = <span class="num_rest"><span id="left_account">{$iniprice} </span> 安全币</span>
+                                    </p>
+                                </div>
+								<input id="user_token" type="hidden" value="{$account.token}">
+                                <a class="mod-btn mod-btn-shop-orange" href="javascript:submit_my_order();">确认兑换</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!--弹出层-->
+		<div id="address_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">兑换成功!</p>
+							<p class="content_text">我们将会尽快为您发货，请耐心等待</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="location.href='{:U('gift/order')}'">查看订单</a>
+						</div>
+						<i class="i-close" onclick="location.href='{:U('gift/order')}"></i>
+					</div>
+		</div>
+		<div id="address_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">兑换失败!</p>
+							<p class="content_text">兑换失败，请尝试重新提交。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="location.reload();">返回重试</a>
+						</div>
+						<i class="i-close" onclick="location.reload();"></i>
+					</div>
+		</div>
+		<script>
+			function submit_my_order(){
+							var  user_token_val = $("#user_token").val();
+							var  redeem_num_val = $("#redeemgoods").val();
+							var  adress_id_val = $("li[select]").attr('address');
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=gift&a=add",
+								type: "POST",
+								data: {token:user_token_val,gid:{$gift.id},number:redeem_num_val,address:adress_id_val},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#address_success").css("display","block");
+									}else{
+										$("#address_fail").css("display","block");
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+			}
+			
+		
+			function select_address(adress_id){
+				$("li[select]").css("border-color","#e6e6e6");
+				$("li[select]").removeAttr('select');
+				$("#address_" + adress_id).css("border-color","#007cfa");
+				$("#address_" + adress_id).attr("select","selected");
+				$("#address_" + adress_id).attr("id","selected_address");
+			}
+			
+			function numplus(){
+				var stock_num = {$gift.stock};
+				var single_price = {$gift.price};
+				var goodsnum = document.getElementById("redeemgoods");
+				var total_price_element = document.getElementById("total_price");
+				var confirm_total_price_element = document.getElementById("confirm_total_price");
+				var left_account_element = document.getElementById("left_account");
+				var resultnum = parseInt(goodsnum.value) + 1;
+				var total_price = resultnum * single_price;
+				var left_account = {$account.jinbi} - total_price; 
+				var user_account_jinbi = {$account.jinbi};
+				if (resultnum > stock_num){
+					alert('库存不足！');
+				} else if(user_account_jinbi<total_price){
+					alert('金币不足！');
+				}else{
+					goodsnum.value = resultnum;
+					total_price_element.innerText = total_price;
+					confirm_total_price_element.innerText = total_price;
+					left_account_element.innerText = left_account;
+				}
+			}
+
+			function numminus(){
+				var single_price = {$gift.price};
+				var goodsnum = document.getElementById("redeemgoods"); 
+				var total_price_element = document.getElementById("total_price");
+				var confirm_total_price_element = document.getElementById("confirm_total_price");
+				var left_account_element = document.getElementById("left_account");
+				var resultnum = parseInt(goodsnum.value) - 1;
+				var total_price = resultnum * single_price;
+				var left_account = {$account.jinbi} - total_price; 
+				if (resultnum > 0){
+					goodsnum.value = resultnum;
+					total_price_element.innerText = total_price;
+					confirm_total_price_element.innerText = total_price;
+					left_account_element.innerText = left_account;
+				} else{
+					alert('商品数量非法！');
+				}
+			}
+		</script>
+
+<include file="Public/footer" />

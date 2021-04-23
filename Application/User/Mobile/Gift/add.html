@@ -1,0 +1,172 @@
+<include file="Public/header" title="订单确认" gift_banner="nav_item-active"/>
+  <div class="container container-shopdetail">
+        <div>
+            <div class="section section-mobile">
+                <div class="section_mobile">
+                    <div class="mobile_header">
+                        <!--<div class="header_sift">
+                            <div class="mod-form-search">
+                                <input class="form-search_input" type="text" placeholder="搜索商品名称">
+                                <input class="form-search_submit" type="submit" value="">
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <div class="mobile_content">
+                        <div class="content_buypanel">
+                            <div class="buypanel_pic">
+                                <img src="{$gift.url}" alt="">
+                            </div>
+                            <div class="buypanel_detail">
+                                <div class="detail_header">
+                                    <span class="header_name">{$gift.title}</span>
+                                    <!--<span class="header_descript">银色&nbsp;16G</span>-->
+                                </div>
+                                <div class="detail_body">
+                                    <p class="body_cost">兑换价值：<span>{$gift.price} 安全币</span></p>
+                                    <!--<p class="body_price">产品原价：<del>1299元</del></p>-->
+                                    <p class="body_exchanged">已兑换：<span>{$gift.redeemed} </span>件</p>
+                                    <div class="body_num">
+                                        <span>兑换数量：</span>
+                                        <div class="mod-form-numselector">
+                                            <a href="javascript:numminus();">
+                                            -
+                                        </a>
+                                            <input id="redeemgoods" type="text" value="1">
+                                            <a href="javascript:numplus();">
+                                            +
+                                        </a>
+                                        </div>
+                                        <span class="num_remain">剩余:<span> {$gift.stock} </span>件</span>
+                                    </div>
+									<ul class="address_list">
+										<li class="mod-address mod-address-added mod-address-active">
+											<p class="address_acceptor">
+												<span class="acceptor_name">{$default[0]['realname']}</span>
+												<span class="acceptor_phone">{$default[0]['mobile']}</span>
+											</p>
+											<p class="address_detail">{$default[0]['adetail']}</p>
+											<i class="i-mod-address-default"></i>
+										</li>
+									</ul>
+                                </div> 
+								
+                                <div class="detail_footer">
+                                    <div class="footer_mycoins">
+                                        <p>我的安全币</p>
+                                        <p class="mycoins_num">{$account.jinbi} 个</p>
+                                    </div>
+									<input id="user_token" type="hidden" value="{$account.token}">
+                                    <a class="mod-btn mod-btn-shop-orange" href="javascript:submit_my_order();" target="_blank">兑换（<span id="total_price">{$gift.price}</span>安全币）</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+		<!--弹出层-->
+		<div id="address_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">兑换成功!</p>
+							<p class="content_text">我们将会尽快为您发货，请耐心等待</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" href="{:U('gift/order')}">查看订单</a>
+						</div>
+						<i class="i-close" onclick="location.href='{:U('gift/order')}'"></i>
+					</div>
+		</div>
+		<div id="address_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">兑换失败!</p>
+							<p class="content_text">兑换失败，请尝试重新提交。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" href="{:U('gift/index')}">返回重试</a>
+						</div>
+						<i class="i-close" onclick="location.href='{:U('gift/order')}"></i>
+					</div>
+		</div>
+		<script>
+			function submit_my_order(){
+							var  user_token_val = $("#user_token").val();
+							var  redeem_num_val = $("#redeemgoods").val();
+							var  adress_id_val = $("li[select]").attr('address');
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=gift&a=add",
+								type: "POST",
+								data: {token:user_token_val,gid:{$gift.id},number:redeem_num_val,address:adress_id_val},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#address_success").css("display","block");
+									}else{
+										$("#address_fail").css("display","block");
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+			}
+			
+		
+			function select_address(adress_id){
+				$("li[select]").css("border-color","#e6e6e6");
+				$("li[select]").removeAttr('select');
+				$("#address_" + adress_id).css("border-color","#007cfa");
+				$("#address_" + adress_id).attr("select","selected");
+				$("#address_" + adress_id).attr("id","selected_address");
+			}
+			
+			function numplus(){
+				var stock_num = {$gift.stock};
+				var single_price = {$gift.price};
+				var goodsnum = document.getElementById("redeemgoods");
+				var total_price_element = document.getElementById("total_price");
+				var confirm_total_price_element = document.getElementById("confirm_total_price");
+				var left_account_element = document.getElementById("left_account");
+				var resultnum = parseInt(goodsnum.value) + 1;
+				var total_price = resultnum * single_price;
+				var left_account = {$account.jinbi} - total_price; 
+				var user_account_jinbi = {$account.jinbi};
+				if (resultnum > stock_num){
+					alert('库存不足！');
+				} else if(user_account_jinbi<total_price){
+					alert('金币不足！');
+				}else{
+					goodsnum.value = resultnum;
+					total_price_element.innerText = total_price;
+					confirm_total_price_element.innerText = total_price;
+					left_account_element.innerText = left_account;
+				}
+			}
+
+			function numminus(){
+				var single_price = {$gift.price};
+				var goodsnum = document.getElementById("redeemgoods"); 
+				var total_price_element = document.getElementById("total_price");
+				var confirm_total_price_element = document.getElementById("confirm_total_price");
+				var left_account_element = document.getElementById("left_account");
+				var resultnum = parseInt(goodsnum.value) - 1;
+				var total_price = resultnum * single_price;
+				var left_account = {$account.jinbi} - total_price; 
+				if (resultnum > 0){
+					goodsnum.value = resultnum;
+					total_price_element.innerText = total_price;
+					confirm_total_price_element.innerText = total_price;
+					left_account_element.innerText = left_account;
+				} else{
+					alert('商品数量非法！');
+				}
+			}
+		</script>
+
+<include file="Public/footer" />

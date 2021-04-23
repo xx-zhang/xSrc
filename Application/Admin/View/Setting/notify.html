@@ -1,0 +1,92 @@
+<include file="Public/header" title="基础配置  - 企业安全应急响应与缺陷管理中心" setting_status="open" setting_notify_color="#6164C1;"/>
+
+<div class="main-content">
+<div class="page-title">
+<ol class="breadcrumb no-bg pl0">
+<li>
+<i class="icon-users"></i> <a href="{:U('setting/index')}">系统配置</a>
+</li>
+<li>
+<a href="javascript:;">基础配置</a>
+</li>
+</ol>
+</div>
+<div class="card bg-white m-b">
+<div class="card-header">
+事件通知
+<div class="card-controls">
+<a href="javascript:;" class="card-collapse" data-toggle="card-collapse">
+<i class="card-icon-collapse"></i>
+</a>
+</div>
+</div>
+<div class="card-block">
+<form action="{:U('setting/update_noti')}" method="post">
+	<div class="form-group">
+		<label>通知方式</label>
+		<select name="site_notify_method" class="form-control" style="width:100%;">
+			<if condition="$site_notify_method eq '0'">
+			<option value="0" selected="selected">未启用</option>
+			<option value="1">企业微信机器人</option>
+			<elseif condition="$site_notify_method eq '1'" />
+			<option value="0">未启用</option>
+			<option value="1" selected="selected">企业微信机器人</option>			
+			</if>
+		</select>
+	</div>
+</div>	
+</div>
+
+<div class="card bg-white m-b">
+<div class="card-header">
+企业微信配置
+<div class="card-controls">
+<a href="javascript:;" class="card-collapse" data-toggle="card-collapse">
+<i class="card-icon-collapse"></i>
+</a>
+</div>
+</div>	
+<div class="card-block">
+	<div class="form-group">
+		<label>企业机器人回调 <small>（* 请保护好回调地址）</small></label>
+		<input class="form-control m-b input-sm" type="text" name="site_robot_callback" value="{$site_robot_callback}" >
+	</div>
+	<!--<div class="form-group">
+		<label>默认通知用户 <small>(* 未启用，填写英文名，用|隔开；示例：zhangsan|wanger)</small></label>
+		<input class="form-control m-b input-sm" type="text" name="site_notify_users" value="{$site_notify_users}" >
+	</div>-->
+	<div class="form-group">
+		<input type="hidden" name="token" value="{:session('token')}"/>
+		<button class="btn btn-success" type="submit" >更新</button>
+	</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+function submit_wechat_offical_account_picture(){
+				$("#imgWait").show();
+                var formData = new FormData();
+                formData.append("photo", document.getElementById("wechatImg").files[0]);   
+                $.ajax({
+                    url: "__ROOT__/admin.php?m=Admin&c=blog&a=upload",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.code == "200") {
+							var figureurl = "__PUBLIC__/Uploads/" + data.savepath;
+							$("#site_wechat_preview").attr("src",figureurl);
+							$("#site_wechat").attr("value",figureurl);
+                        }else{
+                            alert('上传失败请重试');
+                        }
+                    },
+                    error: function () {
+						alert('上传失败请重试');
+                    }
+                });
+}
+</script>
+<include file="Public/footer" />

@@ -1,0 +1,92 @@
+<include file="Public/header" title="我的礼品" gift="navselected"/>
+ <div class="container container-user container-user-shop">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <div class="body_header">
+                                <div class="header_shop">
+                                    <div class="shop_pic"><i></i></div>
+                                    <div class="shop_info-1">
+                                        <p class="info-1_shop">
+                                            <span class="shop_text">我的所有礼品</span>
+                                            <span class="shop_gift"><span class="gift_num">{$order_num}</span>个</span>
+                                        </p>
+                                        <!-- <a class="info-1_detail" href="">漏洞评审细则 >></a> -->
+                                    </div>
+                                    <!--<a class="mod-btn mod-btn-qq" href=""><i class="i-qq"></i>工作人员</a>
+                                    <span class="shop_qqtips">礼品出问题了?</span>-->
+                                </div>
+                            </div>
+                            <div class="body_content">
+                                <div class="mod-sheet">
+                                    <div class="sheet_header">
+                                        <p class="header_title">我的礼品</p>
+                                    </div>
+                                    <div class="sheet_body">
+                                        <table class="body_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="th-1">兑换商品详情</th>
+                                                    <th class="th-2">数量</th>
+                                                    <th class="th-3">消费金额</th>
+                                                    <th class="th-4">当前状态</th>
+                                                    <th class="th-5">时间</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+												<foreach name="info" item="v">
+													<tr>
+														<td style="text-align:center">
+															<div class="table_name">
+																<a href="{:U('gift/detail?oid=')}{$v.id}" target="_blank">{$v.gid}</a>
+															</div>
+														</td>
+														<td style="text-align:center">{$v.num}个</td>
+														<td class="colortips-orange" style="text-align:center">{$v.price} * {$v.num}</td>
+														<td style="text-align:center">
+														<if condition="$v.finish eq 1"><span class="label label-success">已发货</span>
+														<elseif condition="$v.finish eq 0" /><span class="label label-danger">待发货</span>
+														<elseif condition="$v.finish eq 2" /><span class="label label-default">已完成</span>
+														</if></td>
+														<td>{$v.update_time|date="Y/m/d",###}</td>
+													</tr>
+												</foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mod-pageflip">
+										{$page}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+<include file="Public/footer" />

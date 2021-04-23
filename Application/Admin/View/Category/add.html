@@ -1,0 +1,33 @@
+<include file="Public/header" title="添加分类  - 企业安全应急响应与缺陷管理中心" report_status="open" report_category_color="#6164C1;"/>
+<div class="main-content"> 
+    <form method="post" action="{:U('category/add')}">
+        <div class="form-group">
+            <label>分类标题</label>
+            <input type="text" name="title" class="form-control" placeholder="请输入漏洞分类名称">
+        </div>
+        <div class="form-group">
+            <label>父分类</label>
+            <select name="pid" id="bb" class="form-control">
+                <option value="">顶级分类</option>
+                <foreach name="cate" item="v">
+                    <option value="{$v.id}">{$v.html} {$v.title}</option>
+                </foreach>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>分类别名</label>
+            <input type="text" name="name" class="form-control" id="cc" placeholder="请输入不重复的别名">
+        </div>
+        <div class="form-group">
+            <label>关键词</label>
+            <input type="text" name="keywords" class="form-control" id="dd" placeholder="请输入关键词(选填)">
+        </div>
+        <div class="form-group">
+            <label>描述</label>
+            <textarea name="description" id="dd" cols="30" rows="10" class="form-control" placeholder="请输入分类描述(选填)"></textarea>
+        </div>
+        <input type="hidden" name="token" value="{:session('token')}"/>
+		<button type="submit" class="btn btn-default">添加</button>
+    </form>
+</div>
+<include file="Public/footer" />

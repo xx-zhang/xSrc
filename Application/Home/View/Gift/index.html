@@ -1,0 +1,371 @@
+<include file="Public/header" title="礼品兑换" gift_banner="nav_item-active"/>
+
+<div class="container container-shop">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="#">礼品兑换</a></p>
+                        <div class="subnav_bgtext"></div>
+                    </div>
+                </div>
+
+                <div class="section section-sort">
+                    <div class="section_sort">
+                        <div class="sort_row">
+                            <div class="row_header">
+                                <span>分&nbsp;&nbsp;&nbsp;&nbsp;类:</span>
+                            </div>
+                            <div class="row_body">
+                                <ul class="body_list">
+                                    <li id="category_all" class="list_item list_item-active"><a href="{:U('gift/index')}">全部</a></li>
+                                    <li id="category_cash" class="list_item"><a href="javascript:query_by_category('cash')">现金奖励</a></li>
+                                    <li id="category_digital" class="list_item"><a href="javascript:query_by_category('digital')">数码产品</a></li>
+                                    <li id="category_book" class="list_item"><a href="javascript:query_by_category('book')">专业书籍</a></li>
+                                    <li id="category_culture" class="list_item"><a href="javascript:query_by_category('culture')">文化周边</a></li>
+									<li id="category_others" class="list_item"><a href="javascript:query_by_category('others')">其他礼品</a></li>
+                                </ul>
+                            </div>
+                            <!--<div class="row_footer">
+                                <a href=""><span>更多</span><i></i></a>
+                            </div>-->
+                        </div>
+
+                        <div class="sort_row">
+                            <div class="row_header">
+                                <span>安全币:</span>
+                            </div>
+                            <div class="row_body">
+                                <ul class="body_list">
+                                    <li id="price_all" class="list_item list_item-active"><a href="{:U('gift/index')}">全部</a></li>
+                                    <li id="price_0" class="list_item"><a href="javascript:query_by_price(0,100);">0~100</a></li>
+                                    <li id="price_100" class="list_item"><a href="javascript:query_by_price(100,300);">100~300</a></li>
+                                    <li id="price_300" class="list_item"><a href="javascript:query_by_price(300,800);">300~800</a></li>
+                                    <li id="price_800" class="list_item"><a href="javascript:query_by_price(800,1600);">800~1600</a></li>
+                                    <li id="price_1600" class="list_item"><a href="javascript:query_by_price(1600,10000);">1600以上</a></li>
+                                </ul>
+                            </div>
+<!--                             <div class="row_footer">
+                                <a href=""><span>更多</span><i></i></a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-sieve">
+                    <div class="section_sieve">
+                        <div class="sieve_row">
+                            <div class="row_select">
+                                <ul>
+                                    <li id="suggested_val" class="select_item select_item-active"><a href="{:U('gift/index')}">推荐</a></li>
+                                    <!--<li class="select_item"><a href="">新品</a></li>-->
+                                    <li id="order_val" order="desc" class="select_item"><a href="javascript:order_by_price();">价格<i class="i-arrow-price-up"></i><i class="i-arrow-price-down" style="display:block;"></i></a></li>
+                                    <!--<li class="select_item"><a href="">兑换最多</a></li>-->
+                                </ul>
+                            </div>
+							<notempty name="username">
+                            <div class="row_checkbox">
+                                <!--<label><input class="input-checkbox" type="checkbox" name="" value="">只显示有货</label>-->
+                                <label><input id="check_my_redeem" onchange="check_my_redeem();" class="input-checkbox" type="checkbox" name="" value="">显示我能兑换的</label>
+                            </div>
+							</notempty>
+                        </div>
+                    </div>
+                </div>
+			
+                <div class="section section-shop">
+                    <div class="section_shop">
+                        <ul id="mod-itemlist-shop" class="mod-itemlist-shop">
+							<foreach name="gift" item="v">
+							<if condition="$v.stock gt 0">
+								<li class="itemlist_item mod-floatblock">
+									<a href="./user.php?m=user&c=gift&a=add&gid={$v.id}" target="_blank">
+										<div class="item_pic">
+											<img src="{$v.url}" alt="">
+										</div>
+										<p class="item_name">
+											{$v.title}
+										</p>
+										<div class="flag"></div>
+									</a>
+									<p class="item_content">
+										安全币<span class="item_cost"> {$v.price} </span>库存<span class="item_exchangednum"> {$v.stock} </span>个
+									</p>
+									<div class="item_state">
+										<p class="state_text">{$v.title}</p>
+										<a class="mod-btn mod-btn-shop-hoverup-available" href="./user.php?m=user&c=gift&a=add&gid={$v.id}">立即兑换</a>
+									</div>	
+								</li>
+							<else/>
+								<li class="itemlist_item mod-floatblock">
+									<a>
+										<div class="item_pic">
+											<img src="{$v.url}" alt="">
+										</div>
+										<p class="item_name">
+											{$v.title}
+										</p>
+										<div class="flag"></div>
+									</a>
+									<p class="item_content">
+										安全币<span class="item_cost"> {$v.price} </span>库存<span class="item_exchangednum"> {$v.stock} </span>个
+									</p>
+								</li>
+							</if>
+							</foreach>
+                        </ul>
+
+                        <div class="mod-pageflip">
+                          {$page}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+		<script>
+		function query_by_price(start_val,end_val){
+							$.ajax({
+								url: "__ROOT__/index.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'price',start:start_val,end:end_val},
+								success: function (data) {
+									$("#mod-pageflip").remove();
+									if(start_val == 'all'){
+										$("#price_all").attr("class","list_item list_item-active");
+										$("#price_0").attr("class","list_item");
+										$("#price_100").attr("class","list_item");
+										$("#price_300").attr("class","list_item");
+										$("#price_800").attr("class","list_item");
+										$("#price_1600").attr("class","list_item");
+									} else if (start_val == '0'){
+										$("#price_all").attr("class","list_item");
+										$("#price_0").attr("class","list_item list_item-active");
+										$("#price_100").attr("class","list_item");
+										$("#price_300").attr("class","list_item");
+										$("#price_800").attr("class","list_item");
+										$("#price_1600").attr("class","list_item");
+									} else if (start_val == '100'){
+										$("#price_all").attr("class","list_item");
+										$("#price_0").attr("class","list_item");
+										$("#price_100").attr("class","list_item list_item-active");
+										$("#price_300").attr("class","list_item");
+										$("#price_800").attr("class","list_item");
+										$("#price_1600").attr("class","list_item");
+									} else if (start_val == '300'){
+										$("#price_all").attr("class","list_item");
+										$("#price_0").attr("class","list_item");
+										$("#price_100").attr("class","list_item");
+										$("#price_300").attr("class","list_item list_item-active");
+										$("#price_800").attr("class","list_item");
+										$("#price_1600").attr("class","list_item");
+									} else if (start_val == '800'){
+										$("#price_all").attr("class","list_item");
+										$("#price_0").attr("class","list_item");
+										$("#price_100").attr("class","list_item");
+										$("#price_300").attr("class","list_item");
+										$("#price_800").attr("class","list_item list_item-active");
+										$("#price_1600").attr("class","list_item");
+									} else if (start_val == '1600'){
+										$("#price_all").attr("class","list_item");
+										$("#price_0").attr("class","list_item");
+										$("#price_100").attr("class","list_item");
+										$("#price_300").attr("class","list_item");
+										$("#price_800").attr("class","list_item");
+										$("#price_1600").attr("class","list_item list_item-active");
+									}
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											if(item['stock'] <= 0){
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p></li>");
+											}else{
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\" target=\"_blank\"><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p><div class=\"item_state\"><p class=\"state_text\">"+ item['title'] +"</p><a class=\"mod-btn mod-btn-shop-hoverup-available\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">立即兑换</a></div></li>");
+											}
+										});
+									}else{
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									//$("#mod-itemlist-shop").css("display","block");
+								}
+							});
+		}
+		
+		function query_by_category(category_val){
+							$.ajax({
+								url: "__ROOT__/index.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'category',category:category_val},
+								success: function (data) {
+									$("#mod-pageflip").remove();
+									if(category_val == 'all'){
+										$("#category_all").attr("class","list_item list_item-active");
+										$("#category_cash").attr("class","list_item");
+										$("#category_digital").attr("class","list_item");
+										$("#category_book").attr("class","list_item");
+										$("#category_culture").attr("class","list_item");
+										$("#category_others").attr("class","list_item");
+									} else if (category_val =='cash'){
+										$("#category_all").attr("class","list_item");
+										$("#category_cash").attr("class","list_item list_item-active");
+										$("#category_digital").attr("class","list_item");
+										$("#category_book").attr("class","list_item");
+										$("#category_culture").attr("class","list_item");
+										$("#category_others").attr("class","list_item");
+									} else if (category_val =='digital'){
+										$("#category_all").attr("class","list_item");
+										$("#category_cash").attr("class","list_item");
+										$("#category_digital").attr("class","list_item list_item-active");
+										$("#category_book").attr("class","list_item");
+										$("#category_culture").attr("class","list_item");
+										$("#category_others").attr("class","list_item");
+									} else if (category_val =='book'){
+										$("#category_all").attr("class","list_item");
+										$("#category_cash").attr("class","list_item");
+										$("#category_digital").attr("class","list_item");
+										$("#category_book").attr("class","list_item list_item-active");
+										$("#category_culture").attr("class","list_item");
+										$("#category_others").attr("class","list_item");
+									} else if (category_val =='culture'){
+										$("#category_all").attr("class","list_item");
+										$("#category_cash").attr("class","list_item");
+										$("#category_digital").attr("class","list_item");
+										$("#category_book").attr("class","list_item");
+										$("#category_culture").attr("class","list_item list_item-active");
+										$("#category_others").attr("class","list_item");
+									} else if (category_val =='others'){
+										$("#category_all").attr("class","list_item");
+										$("#category_cash").attr("class","list_item");
+										$("#category_digital").attr("class","list_item");
+										$("#category_book").attr("class","list_item");
+										$("#category_culture").attr("class","list_item");
+										$("#category_others").attr("class","list_item list_item-active");
+									}
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											if(item['stock'] <= 0){
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p></li>");
+											}else{
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\" target=\"_blank\"><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p><div class=\"item_state\"><p class=\"state_text\">"+ item['title'] +"</p><a class=\"mod-btn mod-btn-shop-hoverup-available\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">立即兑换</a></div></li>");
+											}
+										});
+									}else{
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									//$("#address_fail").css("display","block");
+								}
+							});
+		}
+		
+		function check_my_redeem(){
+					var check_state = $("#check_my_redeem").attr('checked');
+					
+					if(check_state!='checked'){
+						location.reload();
+					}
+					
+					if(check_state == "checked"){
+							$.ajax({
+								url: "__ROOT__/user.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'redeem'},
+								success: function (data) {
+									$("#mod-pageflip").remove();
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											if(item['stock'] <= 0){
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p></li>");
+											}else{
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\" target=\"_blank\"><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p><div class=\"item_state\"><p class=\"state_text\">"+ item['title'] +"</p><a class=\"mod-btn mod-btn-shop-hoverup-available\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">立即兑换</a></div></li>");
+											}
+										});
+									}else{
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									//$("#address_fail").css("display","block");
+								}
+							});
+					} else{
+						$("#category_all").trigger("click");
+					}
+		}
+		
+		function order_by_price(){
+					var order_val = $("#order_val").attr('order');
+					if(order_val == "desc"){
+							$.ajax({
+								url: "__ROOT__/index.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'order',order:'asc'},
+								success: function (data) {
+									$("#mod-pageflip").remove();
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$("#suggested_val").attr('class','select_item');
+										$("#order_val").attr('class','select_item select_item-active');
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											if(item['stock'] <= 0){
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p></li>");
+											}else{
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\" target=\"_blank\"><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p><div class=\"item_state\"><p class=\"state_text\">"+ item['title'] +"</p><a class=\"mod-btn mod-btn-shop-hoverup-available\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">立即兑换</a></div></li>");
+											}
+										});
+										$("#order_val").attr('order','asc');
+									}else{
+										$("#mod-itemlist-shop").empty();
+										$("#suggested_val").attr('class','select_item');
+										$("#order_val").attr('class','select_item select_item-active');
+										$("#order_val").attr('order','asc');
+									}
+								},
+								error: function () {
+									//$("#address_fail").css("display","block");
+								}
+							});
+					} else{
+						$.ajax({
+								url: "__ROOT__/index.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'order',order:'desc'},
+								success: function (data) {
+									$("#mod-pageflip").remove();
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$("#suggested_val").attr('class','select_item');
+										$("#order_val").attr('class','select_item select_item-active');
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											if(item['stock'] <= 0){
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p></li>");
+											}else{
+												$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\" target=\"_blank\"><div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"></div><p class=\"item_name\">" + item['title'] +"</p><div class=\"flag\"></div></a><p class=\"item_content\">安全币<span class=\"item_cost\">" + item['price'] + "</span>库存<span class=\"item_exchangednum\"> " + item['stock'] + "</span>个</p><div class=\"item_state\"><p class=\"state_text\">"+ item['title'] +"</p><a class=\"mod-btn mod-btn-shop-hoverup-available\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">立即兑换</a></div></li>");
+											}
+										});
+										$("#order_val").attr('order','desc');
+									}else{
+										$("#order_val").attr('order','desc');
+										$("#suggested_val").attr('class','select_item');
+										$("#order_val").attr('class','select_item select_item-active');
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									//$("#address_fail").css("display","block");
+								}
+							});
+					}
+		}
+        </script>
+<include file="Public/footer"/>

@@ -1,0 +1,99 @@
+<include file="Public/header" title="研究博客" blog_banner="nav_item-active"/>
+   <div class="container container-blog">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="#">博客</a></p>
+                        <div class="subnav_bgtext"></div>
+                    </div>
+                </div>
+
+                <div class="section section-blog">
+                    <div class="section_blog">
+                        <div class="blog_content">
+                            <div class="content_sort">
+                                <ul>
+									<if condition="$type_val neq ''">
+										<li class="sort_item"><a href="{:U('blog/index')}">全部</a></li>
+									<else/>
+										<li class="sort_item sort_item-active"><a href="{:U('blog/index')}">全部</a></li>	
+									</if>
+									
+									<foreach name="cates" item="c">
+										<li class="sort_item <if condition="$type_val eq $c['name']">sort_item-active</if>"><a href="{:U('blog/index?type=')}{$c.name}">{$c.name}</a></li>
+
+									</foreach>	
+                                </ul>
+                            </div>
+
+                            <div class="content_list">
+                                <ul class="mod-itemlist-article">
+								<foreach name="model" item="v">
+                                    <li class="itemlist_item">
+                                        <div class="item_pic">
+                                            <a href="{:U('blog/view?id=')}{$v.id}" target="_blank">
+                                                <img src="{$v.picture}" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="item_content">
+                                            <div class="content_title">
+                                                <a href="{:U('blog/view?id=')}{$v.id}" target="_blank">{$v.title}</a>
+                                            </div>
+                                            <div class="content_info">
+                                                <span class="info_author">{$v.author}</span>
+                                                <span class="info_date">
+                                                    <span>{$v.update_time|date="Y/m/d",###}</span>
+                                                </span>
+                                                <!--<span class="info_watched">
+                                                    <i></i>
+                                                    <span>9816</span>
+                                                </span>
+                                                <span class="info_comment">
+                                                    <i></i>
+                                                    <span>89</span>
+                                                </span>-->
+                                            </div>
+                                            <div class="content_brief">
+                                                <p>{$v.abstract}</p>
+                                            </div>
+                                            <div class="content_readmore">
+                                                <a href="{:U('blog/view?id=')}{$v.id}" target="_blank">阅读全文</a>
+                                            </div>
+                                        </div>
+                                    </li>
+									</foreach>	
+                                </ul>
+                            </div>
+
+                            <div class="mod-pageflip">
+                                {$page}
+                            </div>
+                        </div>
+
+                        <div class="blog_sidebarcontainer">
+                            <div class="sidebarcontainer_sidebar">
+                                <div class="sidebar_title">
+                                    <p>精彩博文</p>
+                                </div>
+                                <ul class="sidebar_list">
+								<foreach name="recommend" item="r">
+                                    <li class="list_item">
+                                        <a href="{:U('blog/view?id=')}{$v.id}" target="_blank">
+                                            <i>{$key+1}</i><span>{$r.title}</span>
+                                        </a>
+                                    </li>
+                                </foreach>
+                                </ul>
+                            </div>
+
+                            <!--<div class="mod-rss">
+                                <a class="mod-btn mod-btn-black" href=""><i class="i-rss"></i>RSS订阅</a>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+	</div>
+<include file="Public/footer"/>

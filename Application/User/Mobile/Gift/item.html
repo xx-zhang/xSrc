@@ -1,0 +1,95 @@
+<include file="Public/header" title="礼品信息" gift_banner="navselected"/>
+  <div class="container container-shopdetail">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="shop.html">礼品兑换</a><span> / {$gift.title}</span></p>
+                    </div>
+                </div>
+
+                <div class="section section-buypanel">
+                    <div class="section_buypanel">
+                        <div class="buypanel_pic">
+                            <img src="{$gift.url}" alt="{$gift.title}" style="width:70%;height:70%">
+                        </div>
+                        <div class="buypanel_detail">
+                            <div class="detail_header">
+                                <span class="header_name">{$gift.title}</span>
+                            </div>
+                            <div class="detail_body">
+                                <p class="body_cost">兑换价值：<span>{$gift.price} 金币</span></p>
+                                <p class="body_exchanged">已兑换：<span>{$gift.redeemed}</span> 件</p>
+                                <div class="body_num">
+                                    <span>兑换数量：</span>
+                                    <div class="mod-form-numselector">
+                                        <a href="">
+                                            -
+                                        </a>
+                                        <input type="text" value="1">
+                                        <a href="">
+                                            +
+                                        </a>
+                                    </div>
+                                    <span class="num_remain">剩余:<span>{$gift.stock}</span> 件</span>
+                                </div>
+                            </div>
+                            <div class="detail_footer">
+                                <a class="mod-btn mod-btn-blue" href="shoporder-goods.html" target="_blank">立即兑换</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-tabs section-tabs-recommend">
+                    <div class="section_tabs">
+                        <ul>
+                            <li>
+                                <a>推荐产品</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section section-recommend">
+                    <div class="section_recommend">
+                        <ul class="mod-itemlist-shop">
+							<foreach name="recommend" item="v">
+                            <li class="itemlist_item mod-floatblock">
+                                <a href="{:U('gift/detail?oid=')}{$v.id}" target="_blank">
+                                    <div class="item_pic">
+                                        <img src="{$v.url}" alt="">
+                                    </div>
+                                    <p class="item_name">
+                                       {$v.title}
+                                    </p>
+                                    <div class="flag flag-hot"></div>
+                                </a>
+                                <p class="item_content">
+                                    安全币<span class="item_cost">{$v.price}</span>已兑换<span class="item_exchangednum">{$v.redeemed}</span>个
+                                </p>
+                            </li>  
+							</foreach>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<script>
+			function numplus(){
+			var goodsnum = document.getElementById("redeemgoods");
+			var resultnum = parseInt(goodsnum.value) + 1;
+			goodsnum.value = resultnum;
+			}
+
+			function numminus(){
+			var goodsnum = document.getElementById("redeemgoods"); 
+			var resultnum = parseInt(goodsnum.value) - 1;
+			if (resultnum > 0){
+				goodsnum.value = resultnum;
+			  }else{
+				alert('商品数量非法！');
+				}
+			}
+		</script>
+<include file="Public/footer" />

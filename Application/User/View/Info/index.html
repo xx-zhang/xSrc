@@ -1,0 +1,495 @@
+<include file="Public/header" title="个人信息 | 企业安全应急响应与缺陷管理中心" info="navselected"/>
+        <div class="container container-user container-user-account-detail">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+						<foreach name="info" item="v">
+                        <div class="user_body">
+                            <a href="{:U('info/update')}" class="mod-btn mod-btn-black">修改基本信息</a>
+
+                            <div class="body_block body_block-info">
+                                <h3>基本信息</h3>
+                                <div class="block_avatar">
+                                    <span>头像</span><img style="height:100px;width:100px;border-radius: 50%;-moz-border-radius:50%;-webkit-border-radius:50%;" src="__PUBLIC__/Uploads/{$v.avatar}" alt="">
+                                </div>
+                                <div class="block_content">
+                                    <div class="content_leftblock">
+                                        <p class="content_nickname">昵称：<span>{$v.username}</span></p>
+										<p class="content_name">支付宝：<span>{$v.alipay}</span></p>
+                                        <p class="content_team">团队：<span>{$v.team}</span></p>
+                                        <p class="content_wechat">微信：<span>{$v.wechat}</span></p>
+                                        <p class="content_signature">个人简介：<span>{$v.description}</span></p>
+                                    </div>
+                                    <div class="content_rightblock">
+                                        <p class="content_email">电子邮箱：<span>{$v.email}</span></p>
+                                        <p class="content_phone">移动电话：<span>{$v.tel}</span></p>
+                                        <p class="content_homepage">个人主页：<span>{$v.website}</span></p>
+                                        <p class="content_qq">QQ号码：<span>{$v.qqnumber}</span></p>
+										<input id="csrf_token" style="opacity:0;" value="{$v.token}"/>
+                                    </div>
+                                </div>
+                            </div>
+							</foreach>
+							
+                            <div class="body_block body_block-address">
+                                <h3>地址管理</h3>
+                                <div class="block_address">
+                                    <ul class="address_select">
+										<foreach name="adress_info" item="v">
+                                        <li class="mod-address mod-address-added <if condition="$v.default eq 1">mod-address-added-default</if>">
+                                            <p class="address_acceptor">
+                                                <span class="acceptor_name">{$v.realname}</span>
+                                                <span class="acceptor_phone">{$v.mobile}</span>
+                                            </p>
+                                            <p class="address_detail">{$v.adetail}</p>
+                                            <div class="address_change">
+                                                <!--<span class="change_setdefault">设为默认</span>--><a href="javascript:query_address({$v.id});"><i class="i-address-modify"></i></a> | <a href="javascript:delete_address({$v.id});"><i class="i-address-delete" onclick="return confirm('请确认是否删除该地址');"></i></a>
+                                            </div>
+                                            <i class="i-mod-address-default"></i>
+                                        </li>
+										</foreach>
+
+                                        <li id="add_address_button" class="mod-address mod-address-add">
+                                            <i></i><span>添加新地址</span>
+                                        </li>
+                                    </ul>
+                                </div>
+								
+								<h3>财务信息</h3>
+                                <div class="block_address">
+                                    <ul class="address_select">
+                                        <li class="mod-address mod-address-added">
+                                            <p class="address_acceptor">
+                                                <span class="acceptor_name">{$info[0].realname} ({$info[0].idcode|substr=0,7}****)</span>
+                                            </p>
+                                            <p class="address_detail">
+                                                <span class="acceptor_name">卡号/ {$info[0].bankcode|substr=0,6}****</span>
+                                            </p>
+                                            <div class="address_change">
+                                                <a href="javascript:query_bank({$v.id});"><i class="i-address-modify"></i></a>
+                                            </div>
+                                            <i class="i-mod-address-default"></i>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!--添加地址弹出层-->
+		<div id="add_address_div" class="mod-popup mod-popup-address">
+            <div class="popup_mask">
+            </div>
+            <div class="popup_body">
+                <div class="body_content">
+                    <p class="content_title">新增收货地址</p>
+                    <form action="">
+                        <div class="mod-form-block mod-form-block-input mod-form-block-input-name">
+                            <label for="">收件人</label>
+                            <div>
+                                <div>
+                                    <input id="realname" type="text" placeholder="请输入收件人">
+                                </div>
+                                <span class="formtips-error">您输入的收件人有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-input mod-form-block-input-phone">
+                            <label for="">手机号码</label>
+                            <div>
+                                <div>
+                                    <input id="mobile" type="text" placeholder="请输入手机号码">
+                                </div>
+                                <span class="formtips-error">您输入的手机号码有误，请重新输入</span>
+                            </div>
+                        </div>
+						
+						<div class="mod-form-block mod-form-block-input mod-form-block-input-name">
+                            <label for="">邮编</label>
+                            <div>
+                                <div>
+                                    <input id="zipcode" type="text" placeholder="请输入邮编">
+                                </div>
+                                <span class="formtips-error">您输入的收件人有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-textarea mod-form-block-textarea-address">
+                            <label for="">详细地址</label>
+                            <div>
+                                <div>
+                                    <textarea name="" id="adetail" style="height:70px;" placeholder="请输入详细地址"></textarea>
+                                </div>
+                                <span class="formtips-error">您输入的详细地址有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-checkbox">
+                            <div>
+                                <div class="form-block_checkboxes">
+                                    <input id="default" class="input-checkbox" type="checkbox"><span>将此地址设为默认地址</span>
+                                </div>
+                                <p class="form-block_tips">注：赠品将通过默认地址邮寄</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="body_btns">
+                    <a class="mod-btn mod-btn-blue" href="javascript:submit_add_address();">保存收货地址</a>
+                    <a class="mod-btn mod-btn-black mod-btn-close" href="">取消</a>
+                </div>
+                <i class="i-close"></i>
+            </div>
+        </div>
+		<!--修改地址弹出层-->
+		<div id="edit_address" class="mod-popup mod-popup-address">
+            <div class="popup_mask">
+            </div>
+            <div class="popup_body">
+                <div class="body_content">
+                    <p class="content_title">修改收货地址</p>
+                    <form action="">
+                        <div class="mod-form-block mod-form-block-input mod-form-block-input-name">
+                            <label for="">收件人</label>
+                            <div>
+                                <div>
+                                    <input id="edit_adress_realname" type="text" placeholder="请输入收件人">
+                                </div>
+                                <span class="formtips-error">您输入的收件人有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-input mod-form-block-input-phone">
+                            <label for="">手机号码</label>
+                            <div>
+                                <div>
+                                    <input id="edit_adress_mobile" type="text" placeholder="请输入手机号码">
+                                </div>
+                                <span class="formtips-error">您输入的手机号码有误，请重新输入</span>
+                            </div>
+                        </div>
+						
+						<div class="mod-form-block mod-form-block-input mod-form-block-input-name">
+                            <label for="">邮编</label>
+                            <div>
+                                <div>
+                                    <input id="edit_adress_zipcode" type="text" placeholder="请输入邮编">
+                                </div>
+                                <span class="formtips-error">您输入的收件人有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-textarea mod-form-block-textarea-address">
+                            <label for="">详细地址</label>
+                            <div>
+                                <div>
+                                    <textarea name="" id="edit_adress_adetail" style="height:70px;" placeholder="请输入详细地址"></textarea>
+                                </div>
+                                <span class="formtips-error">您输入的详细地址有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-checkbox">
+                            <div>
+                                <div class="form-block_checkboxes">
+                                    <input id="edit_adress_default" class="input-checkbox" type="checkbox"><span>将此地址设为默认地址</span>
+									<input id="edit_adress_id" hidden />
+                                </div>
+                                <p class="form-block_tips">注：赠品将通过默认地址邮寄</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="body_btns">
+                    <a class="mod-btn mod-btn-blue" href="javascript:submit_edit_address();">保存收货地址</a>
+                    <a class="mod-btn mod-btn-black mod-btn-close" href="">取消</a>
+                </div>
+                <i class="i-close"></i>
+            </div>
+        </div>
+		<!--修改财务信息弹出层-->
+		<div id="edit_bank" class="mod-popup mod-popup-address">
+            <div class="popup_mask">
+            </div>
+            <div class="popup_body" style="height:55%">
+                <div class="body_content">
+                    <p class="content_title">修改财务信息</p>
+                    <form action="">
+                        <div class="mod-form-block mod-form-block-input mod-form-block-input-name">
+                            <label for="">真实姓名</label>
+                            <div>
+                                <div>
+                                    <input id="edit_bank_realname" type="text" placeholder="请输入姓名">
+                                </div>
+                                <span class="formtips-error">您输入的姓名有误，请重新输入</span>
+                            </div>
+                        </div>
+
+                        <div class="mod-form-block mod-form-block-input mod-form-block-input-phone">
+                            <label for="">银行卡号</label>
+                            <div>
+                                <div>
+                                    <input id="edit_bank_bankcode" type="text" placeholder="请输入银行卡号">
+                                </div>
+                                <span class="formtips-error">您输入的银行卡号有误，请重新输入</span>
+                            </div>
+                        </div>
+
+						<div class="mod-form-block mod-form-block-input mod-form-block-input-phone">
+                            <label for="">身份证号</label>
+                            <div>
+                                <div>
+                                    <input id="edit_bank_idcode" type="text" placeholder="请输入银行卡号">
+                                </div>
+                                <span class="formtips-error">您输入的银行卡号有误，请重新输入</span>
+                            </div>
+                        </div>
+						
+                    </form>
+                </div>
+                <div class="body_btns">
+                    <a class="mod-btn mod-btn-blue" href="javascript:submit_edit_bank();">保存</a>
+                    <a class="mod-btn mod-btn-black mod-btn-close" href="">取消</a>
+                </div>
+                <i class="i-close"></i>
+            </div>
+        </div>
+		<!--收货地址弹出层-->
+		<div id="address_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">操作成功!</p>
+							<p class="content_text">收货地址操作成功，返回页面查看。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<div id="address_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">操作失败!</p>
+							<p id="fail_content" class="content_text">地址操作错误，请尝试重新提交。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<!--财务信息弹出层-->
+		<div id="bank_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">操作成功!</p>
+							<p class="content_text">财务信息操作成功，返回页面查看。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<div id="bank_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">操作失败!</p>
+							<p id="fail_content" class="content_text">财务信息操作错误，请尝试重新提交。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<script>
+			function submit_add_address(){
+							//var  verify_code_val = $("#verify_code").val();
+							var  adetail_val = $("#adetail").val();
+							var  mobile_val = $("#mobile").val();
+							var  zipcode_val = $("#zipcode").val();
+							var  realname_val = $("#realname").val();
+							var  default_val = $('#default').attr('checked');
+							var  token_val = $("#csrf_token").val();
+							if (default_val == 'checked'){
+								default_val = "1";
+							} else {
+								default_val = "0";
+							}
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=add_address",
+								type: "POST",
+								data: {realname:realname_val,zipcode:zipcode_val,mobile:mobile_val,adetail:adetail_val,default:default_val,token:token_val},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#address_success").css("display","block");
+									}else{
+										$("#address_fail").css("display","block");
+										$("#fail_content").text(data.info);
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+			}
+			
+			
+			function submit_edit_address(){					
+							var  adetail_val = $("#edit_adress_adetail").val();
+							var  mobile_val = $("#edit_adress_mobile").val();
+							var  zipcode_val = $("#edit_adress_zipcode").val();
+							var  realname_val = $("#edit_adress_realname").val();
+							var  adress_id_val = $("#edit_adress_id").val();
+							var  default_val = $('#edit_adress_default').attr('checked');
+							var  token_val = $("#csrf_token").val();
+							if (default_val == 'checked'){
+								default_val = "1";
+							} else {
+								default_val = "0";
+							}
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=edit_address",
+								type: "POST",
+								data: {id:adress_id_val,realname:realname_val,zipcode:zipcode_val,mobile:mobile_val,adetail:adetail_val,default:default_val,token:token_val},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#address_success").css("display","block");
+									}else{
+										$("#address_fail").css("display","block");
+										$("#fail_content").text(data.info);
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+			}
+			
+			function query_address(address_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=query_address",
+								type: "POST",
+								data: {id:address_id},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#edit_adress_realname").attr("value",data.realname);
+										$("#edit_adress_mobile").attr("value",data.mobile);
+										$("#edit_adress_zipcode").attr("value",data.zipcode);
+										$("#edit_adress_adetail").attr("value",data.adetail);
+										$("#edit_adress_id").attr("value",address_id);
+										if (data.default=="1"){
+											$("#edit_adress_default").attr("checked","checked");
+										}
+									}else{
+										$("#address_fail").css("display","block");
+										$("#fail_content").text(data.info);
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+							$("#edit_address").css("display","block");
+			}
+			
+			
+			function query_bank(address_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=query_bank",
+								type: "POST",
+								data: {id:address_id},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#edit_bank_realname").attr("value",data.realname);
+										$("#edit_bank_bankcode").attr("value",data.bankcode);
+										$("#edit_bank_idcode").attr("value",data.idcode);
+									}else{
+										$("#address_fail").css("display","block");
+										$("#fail_content").text(data.info);
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+							$("#edit_bank").css("display","block");
+			}
+
+			function submit_edit_bank(){					
+							var  realname_val = $("#edit_bank_realname").val();
+							var  bankcode_val = $("#edit_bank_bankcode").val();
+							var  idcode_val = $("#edit_bank_idcode").val();
+							var  token_val = $("#csrf_token").val();
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=edit_bank",
+								type: "POST",
+								data: {realname:realname_val,bankcode:bankcode_val,idcode:idcode_val,token:token_val},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#bank_success").css("display","block");
+									}else{
+										$("#bank_fail").css("display","block");
+										$("#fail_content").text(data.info);
+									}
+								},
+								error: function () {
+									$("#bank_fail").css("display","block");
+								}
+							});
+			}
+			
+			function delete_address(address_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=delete_address",
+								type: "POST",
+								data: {id:address_id},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#address_success").css("display","block");
+									}else{
+										$("#address_fail").css("display","block");
+										$("#fail_content").text(data.info);
+									}
+								},
+								error: function () {
+									$("#address_fail").css("display","block");
+								}
+							});
+			}
+			
+		</script>
+<include file="Public/footer" />

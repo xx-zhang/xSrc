@@ -1,0 +1,74 @@
+<include file="Public/header" title="研究博客" blog_banner="dropdown_item-active"/>
+    <div class="container container-blog">
+        <div>
+            <div class="section section-blog">
+                <div class="section_blog">
+                    <div class="blog_content">
+                        <div class="content_toparticles">
+                            <div class="swiper-container-blog">
+                                <div class="swiper-wrapper">
+								<foreach name="banner" item="b">
+                                    <div class="swiper-slide">
+                                        <a href="">
+                                            <img class="slide_pic" src="{$b.picture}" alt="" style="width:100%;height:100%;">
+                                            <p class="slide_title">{$b.title}</p>
+                                        </a>
+                                    </div>
+								</foreach>
+                                </div>
+                                <!-- Add Pagination -->
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+
+                        <div class="content_sort">
+                            <div>
+                                <ul>
+									<if condition="$type_val neq ''">
+										<li class="sort_item"><a href="{:U('blog/index')}">全部</a></li>
+									<else/>
+										<li class="sort_item sort_item-active"><a href="{:U('blog/index')}">全部</a></li>	
+									</if>
+								
+									<foreach name="cates" item="c">
+										<li class="sort_item <if condition="$type_val eq $c['name']">sort_item-active</if>"><a href="{:U('blog/index?type=')}{$c.name}">{$c.name}</a></li>
+									</foreach>
+                                </ul>
+                            </div>
+
+                            <!-- <div class="shape-triangle"></div> -->
+                        </div>
+
+                        <div class="content_list">
+                            <ul class="mod-itemlist-article">
+							<foreach name="model" item="v">
+                                <li class="itemlist_item">
+                                    <div class="item_pic">
+                                        <a href="{:U('blog/view?id=')}{$v.id}">
+                                            <img src="{$v.picture}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="item_content">
+                                        <div class="content_title">
+                                            <a href="{:U('blog/view?id=')}{$v.id}">{$v.title}</a>
+                                        </div>
+                                        <p class="content_author">{$v.author}</p>
+                                        <p class="content_date">{$v.update_time|date="Y/m/d",###}</p>
+                                    </div>
+                                </li>
+							</foreach>
+                            </ul>
+
+                        </div>
+                        <!--<div class="mod-pageflip mod-pageflip-rl">
+                            <a class="i-arrow-left-d" href=""></a>
+                            <a class="i-arrow-left" href=""></a>
+                            <a class="i-arrow-right" href=""></a>
+                            <span>第 2 页</span>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<include file="Public/footer"/>

@@ -1,0 +1,69 @@
+<include file="Public/header" title="个人中心" banner_selected="dropdown_item-active"/>
+<div class="container container-user container-user-center">
+        <div>
+            <div class="section section-user">
+                <div class="section_user">
+                    <div class="user_body">
+                        <a class="body_header" href="#">
+                            <div class="header_user">
+                                <div class="user_avatar"><img src="__PUBLIC__/Uploads/{$binfo['avatar']}" alt=""></div>
+                                <div class="user_info">
+                                    <p class="info_name">{:session('username')}</p>
+                                    <p class="info_team">团队：<span class="team_name">{$binfo['team']}</span></p>
+                                    <p class="info_contribute">贡献值：<span class="contribute_num">{$binfo['jifen']}分</span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="user_sidebar">
+                        <ul class="sidebar_nav">
+                            <li class="nav_item nav_item-homepage">
+                                <a href="__ROOT__/index.php?m=&c=hall&a=view&pid={$binfo['pid']}">
+                                    <span><i class="item_icon"></i></span><span>我的公共主页</span>
+                                </a>
+                            </li>
+                            <li class="nav_item nav_item-coins">
+                                <a href="{:U('gift/record')}">
+                                    <span><i class="item_icon"></i></span><span>我的安全币</span>
+                                </a>
+                            </li>
+                            <li class="nav_item nav_item-report">
+                                <a href="{:U('post/index')}">
+                                    <span><i class="item_icon"></i></span><span>我报告的漏洞</span>
+                                </a>
+                            </li>
+                            <li class="nav_item nav_item-shop">
+                                <a href="{:U('gift/order')}">
+                                    <span><i class="item_icon"></i></span><span>我的礼品</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="sidebar_nav">
+                            <li class="nav_item nav_item-message">
+                                <a href="{:U('message/index')}">
+                                    <span><i class="item_icon"></i></span><span>消息中心</span>
+                                    <i class="i-user-center-message">{:session('mnum')}</i>
+                                </a>
+                            </li>
+                            <li class="nav_item nav_item-account">
+                                <a href="{:U('info/index')}">
+                                    <span><i class="item_icon"></i></span><span>我的个人信息</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="sidebar_nav">
+                            <li class="nav_item nav_item-logout">
+                                <a href="{:U('login/logout')}">
+                                    <span><i class="item_icon"></i></span><span>注销</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<include file="Public/footer"/>

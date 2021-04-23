@@ -1,0 +1,37 @@
+<!-- footer -->
+        <div class="footer">
+            <div>
+                <div class="footer_about">
+                    <p class="about_link">
+                        <a href="{$site_about}" target="_blank">关于腾讯</a>
+                        |
+                        <a href="{$site_career}">加入我们</a>
+                        |
+                        <a href="__ROOT__/user.php?m=user&c=post&a=add">报告漏洞</a>
+                    </p>
+                    <p class="about_copyright">
+                        <span>Copyright &copy; <php>echo date('Y');</php> {$site_copyright}. All Rights Reserved</span>
+						<span>Powered by <a href="https://security.tencent.com/index.php/xsrc">Tencent xSRC</a></span>
+                    </p>
+                </div>
+
+                <div class="footer_contact">
+                    <a class="contact_icon-email" href="mailto:{$site_email}"><i></i><span>专用邮箱</span>|</a>
+                    <a class="contact_icon-weixin mod-qrcode" href="">
+                        <i></i><span>微信公众号</span>
+                        <div class="qrcode">
+                            <div class="qrcode_pic">
+                                <img src="{$site_wechat}" alt="">
+                            </div>
+                            <span class="qrcode_text">扫一扫关注公众号</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <script src="__PUBLIC__/Index/js/jquery-1.7.2.min.js"></script>
+        <script src="__PUBLIC__/Index/js/test.js"></script>
+		<script src="https://security.tencent.com/static/plugins/jquery.ajaxfileupload.js"></script>
+    </body>
+</html>

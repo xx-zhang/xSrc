@@ -1,0 +1,46 @@
+<include file="Public/header" title="消息中心" report="navselected"/>
+<div class="container container-user container-user-message">
+        <div>
+            <div class="section section-user">
+                <div class="section_user">
+                    <div class="user_body">
+
+                        <div class="body_content">
+                            <div class="mod-sheet-user-message">
+                                <ul class="sheet_list">    
+									<foreach name="message" item="v">
+										<a onclick="message_read('{$v.id}');"><li class="list_item <if condition="$v.read eq 0">table_message-new</if>">
+											<div class="item_content">
+												<a class="content_title" href="">{$v.content}</a>
+												<p class="content_time">{$v.sender} | {$v.time|strtotime|date="Y/m/d",###}</p>
+											</div>
+										</li></a>
+									</foreach>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+		function message_read(message_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=message&a=readed",
+								type: "POST",
+								data: {mid:message_id},
+								success: function (data) {
+									if (data.status == "1") {
+										window.location.reload();
+									}else{
+										window.location.reload();
+									}
+								},
+								error: function () {
+									window.location.reload();
+								}
+							});
+		}
+</script>
+<include file="Public/footer" />

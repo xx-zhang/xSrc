@@ -1,0 +1,104 @@
+<include file="Public/header" title="消息中心" report="navselected"/>
+<div class="container container-user container-user-message">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                               <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+								<li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <div class="body_header">
+                                <div class="header_message">
+                                    <div class="message_pic"><i></i></div>
+                                    <div class="message_info-1">
+                                        <p class="info-1_message">
+                                            <span class="message_text">我的消息</span>
+                                            <span class="message_num"><span class="num_num">{$count}</span>条</span>
+                                        </p>
+                                        <!-- <a class="info-1_detail" href="">漏洞评审细则 >></a> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body_content">
+                                <div class="mod-sheet">
+                                    <div class="sheet_header">
+                                        <p class="header_title">消息中心</p>
+                                    </div>
+                                    <div class="sheet_body">
+                                        <table class="body_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="th-2">消息主题</th>
+                                                    <th class="th-3">消息类型</th>
+                                                    <th class="th-4">发送者</th>
+                                                    <th class="th-5">时间</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+												<foreach name="message" item="v">
+                                                <tr>
+                                                    <!--<td><input class="input-checkbox" type="checkbox"></td>-->
+                                                    <td class="table_message <if condition="$v.read eq 0">table_message-new</if>"><a onclick="message_read('{$v.id}');">{$v.content}</a></td>
+                                                    <td style="text-align:center">{$v.type}</td>
+                                                    <td style="text-align:center">{$v.sender}</td>
+                                                    <td style="text-align:center">{$v.time|strtotime|date="Y/m/d",###}</td>
+                                                </tr>
+												</foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mod-pageflip">
+                                        <ul>
+                                           {$page}
+                                        </ul>
+                                    </div>
+
+                                    <!--<a href="" class="mod-btn mod-btn-black">已读选中消息</a>-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+		<script>
+		function message_read(message_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=message&a=readed",
+								type: "POST",
+								data: {mid:message_id},
+								success: function (data) {
+									if (data.status == "1") {
+										window.location.reload();
+									}else{
+										window.location.reload();
+									}
+								},
+								error: function () {
+									window.location.reload();
+								}
+							});
+		}
+		</script>
+<include file="Public/footer" />

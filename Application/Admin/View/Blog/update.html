@@ -1,0 +1,177 @@
+<include file="Public/header" title="编辑博客 - 企业安全应急响应与缺陷管理中心" page_status="open" blog_color="#6164C1;"/>
+<div class="main-content">
+<div class="page-title">
+<ol class="breadcrumb no-bg pl0">
+<li>
+<i class="icon-users"></i> <a href="{:U('blog/index')}">博客列表</a>
+</li>
+<li>
+<a href="javascript:;">编辑博客</a>
+</li>
+</ol>
+</div>
+    <form method="post" action="{:U('blog/update?id=')}{$page.id}">
+        <div class="form-group">
+            <label for="page-title">博客标题</label>
+            <input type="text" name="title" class="form-control" value="{$page.title}" id="page-title" placeholder="输入博客标题">
+        </div>
+		<div class="form-group">
+            <label for="post-cate">漏洞类型: </label>
+            <select name="name" class="form-control" style="width:100%;">
+					<if condition="$page.name eq '移动安全'">
+						<option value="移动安全" selected="selected">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>
+					<elseif condition="$page.name eq 'Web安全'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全" selected="selected">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>
+					<elseif condition="$page.name eq '终端安全'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全" selected="selected">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>		
+					<elseif condition="$page.name eq '安全工具'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具" selected="selected">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>
+					<elseif condition="$page.name eq '安全开发'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发" selected="selected">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>
+					<elseif condition="$page.name eq '无线安全'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全" selected="selected">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>
+					<elseif condition="$page.name eq '深度学习'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习" selected="selected">深度学习</option>
+						<option value="会议沙龙">会议沙龙</option>		
+					<elseif condition="$page.name eq '会议沙龙'" />
+						<option value="移动安全">移动安全</option>
+						<option value="Web安全">Web安全</option>
+						<option value="终端安全">终端安全</option>
+						<option value="安全工具">安全工具</option>
+						<option value="安全开发">安全开发</option>
+						<option value="无线安全">无线安全</option>
+						<option value="深度学习">深度学习</option>
+						<option value="会议沙龙" selected="selected">会议沙龙</option>		
+					</if>
+            </select>
+        </div>
+		<div class="form-group">
+            <label for="page-title">文章作者: </label>
+            <input type="text" name="author" class="form-control" id="page-title" value="{$page.author}">
+        </div>
+		<div class="form-group">
+            <label for="page-title">博文摘要: </label>
+            <input type="text" name="abstract" class="form-control" id="page-title" value="{$page.abstract}">
+        </div>
+        <div class="form-group">
+            <label for="page-content">博客内容</label>
+            <script id="page-content" name="content" type="text/plain" style="width:99.9%;">{$page.content|htmlspecialchars_decode}</script>
+        </div>
+		<div class="form-group">
+            <label for="page-title">博客配图<small> (*建议上传高160像素，宽250像素的图片)</small>: </label>
+            <input id="blogImg" type="file" name="photo" onchange="submit_blog_picture();">
+        </div>
+		<div class="form-group">
+            <label for="page-title">配图预览: </label>
+			<br/>
+            <img style="height:160px;width;250px;" id="figureurl" src="{$page.picture}">
+			<input id="imgvalue" name="picture" type="hidden" value="{$page.picture}">
+        </div>
+        <input type="hidden" name="id" value="{$page.id}">
+        <input type="hidden" name="token" value="{:session('token')}"/>
+		<button type="submit" class="btn btn-default">提交</button>
+    </form>
+</div>
+</div>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('page-content',{
+        toolbars: [
+            ['fullscreen', 'source', 'undo', 'redo','bold', 'italic', 'underline','fontborder', 'strikethrough', '|','simpleupload','emotion','link','unlink', '|', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote','searchreplace', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc'],
+            ['inserttable','insertrow', 'insertcol','mergeright', 'mergedown','deleterow', 'deletecol','splittorows','splittocols', 'splittocells','deletecaption','inserttitle', 'mergecells', 'deletetable','insertparagraphbeforetable', 'paragraph','fontsize','fontfamily']
+        ],
+        initialFrameHeight:500,
+		wordCount:false,
+        zIndex:100
+    });
+</script>
+<script>
+function submit_blog_picture(){
+				$("#imgWait").show();
+                var formData = new FormData();
+                formData.append("photo", document.getElementById("blogImg").files[0]);   
+                $.ajax({
+                    url: "__ROOT__/admin.php?m=Admin&c=blog&a=upload",
+                    type: "POST",
+                    data: formData,
+                    /**
+                    *必须false才会自动加上正确的Content-Type
+                    */
+                    contentType: false,
+                    /**
+                    * 必须false才会避开jQuery对 formdata 的默认处理
+                    * XMLHttpRequest会对 formdata 进行正确的处理
+                    */
+                    processData: false,
+                    success: function (data) {
+                        if (data.code == "200") {
+							var figureurl = "__PUBLIC__/Uploads/" + data.savepath;
+							$("#figureurl").attr("src",figureurl);
+							$("#imgvalue").attr("value",figureurl);
+                        }else{
+                            alert('上传失败请重试');
+							//$("#upload_tips").css("display","block");
+                        }
+                        //$("#imgWait").hide();
+                    },
+                    error: function () {
+						alert('上传失败请重试');
+						//$("#upload_tips").css("display","block");
+                        //$("#imgWait").hide();
+                    }
+                });
+}
+</script>
+<include file="Public/footer" />

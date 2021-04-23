@@ -1,0 +1,171 @@
+<include file="Public/header" title="兑换中心" gift_banner="nav_item-active"/>
+<div class="container container-shop">
+        <div>
+            <div class="section section-mobile">
+                <div class="section_mobile">
+                    <div class="mobile_header">
+						<div class="header_title" style="padding-top: 2rem;padding-bottom: 2rem;">
+                            <span class="title_mine"><span class="mine_text">我有</span><span class="mine_num">{$account['jinbi']}</span><span class="mine_text">个企鹅币</span></span>
+                        </div>
+						
+                        <div class="header_sift">
+
+                            <div class="mod-form-sift mod-form-sift-select">
+                                <div class="sift_select">
+                                    <select id="mobile_gift_type" onchange="query_mobile_gift_type();">
+										<option value="all">全部</option>
+                                        <option value="cash">现金奖励</option>
+                                        <option value="digital">数码产品</option>
+                                        <option value="book">专业书籍</option>
+                                        <option value="culture">文化周边</option>
+										<option value="others">其他礼品</option>
+                                    </select>
+                                    <div class="shape-triangle"></div>
+                                    <div class="shape-line-vertical"></div>
+                                </div>
+                                <div class="sift_select">
+                                    <select name="" id="mobile_gift_price" onchange="query_mobile_gift_price();">
+                                        <option value="all">全部</option>
+										<option value="0,100">0~100</option>
+                                        <option value="100,300">100~300</option>
+                                        <option value="300,800">300~800</option>
+                                        <option value="800,1600">800~1600</option>
+										<option value="1600,10000">1600以上</option>
+                                    </select>
+                                    <div class="shape-triangle"></div>
+                                    <div class="shape-line-vertical"></div>
+                                </div>
+                                <div class="sift_checkbox">
+                                    <label>
+                                        <input class="input-checkbox" type="checkbox" id="check_my_redeem" onchange="check_my_redeem();">显示我能兑换的</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile_content">
+                        <ul class="mod-itemlist-shop" id="mod-itemlist-shop">
+						<foreach name="gift" item="v">
+                            <li class="itemlist_item mod-floatblock">
+                                <a href="{:U('gift/add?gid=')}{$v.id}">
+                                    <div class="item_pic">
+                                        <img src="{$v.url}" alt="">
+                                    </div>
+                                    <p class="item_name">{$v.title}</p>
+                                </a>
+                                <p class="item_content" style="padding:5% 0px 5% 0px;">
+                                    安全币<span class="item_cost"> {$v.price} </span>已兑换<span class="item_exchangednum"> {$v.redeemed} </span>个
+                                </p>
+                                <a class="mod-btn mod-btn-shop-white" href="javascript:alert('移动端暂不支持兑换');">兑换</a>
+                            </li>
+						</foreach>
+                        </ul>
+                        <!--<div class="mod-pageflip mod-pageflip-rl">
+                            <a class="i-arrow-left-d" href=""></a>
+                            <a class="i-arrow-left" href=""></a>
+                            <a class="i-arrow-right" href=""></a>
+                            <span>第 2 页</span>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+function query_mobile_gift_price(){
+							
+							var option_val = $("#mobile_gift_price").attr("value");
+							if (option_val=='all'){
+								location.reload();
+							}
+							$("#check_my_redeem").removeAttr("checked");
+							var price_val = $("#mobile_gift_price").val();
+							var start_val = price_val.split(',')[0];
+							var end_val = price_val.split(',')[1];
+							$.ajax({
+								url: "__ROOT__/user.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'price',start:start_val,end:end_val},
+								success: function (data) {
+									
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\"> <div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"> </div> <p class=\"item_name\">" + item['title'] +"</p><p class=\"item_content\" style=\"padding:5% 0px 5% 0px;\"> 安全币<span class=\"item_cost\"> " + item['price'] + "</span>已兑换<span class=\"item_exchangednum\">" + item['redeemed'] + "</span>个</p><a class=\"mod-btn mod-btn-shop-white\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">兑换</a></li>");
+										});
+									}else{
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									$("#mod-itemlist-shop").empty();
+								}
+							});
+		}
+		
+		function query_mobile_gift_type(){
+							
+							var option_val = $("#mobile_gift_type").attr("value");
+							if (option_val=='all'){
+								location.reload();
+							}
+							$("#check_my_redeem").removeAttr("checked");
+ 							var category_val = $("#mobile_gift_type").val();
+							$.ajax({
+								url: "__ROOT__/user.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'category',category:category_val},
+								success: function (data) {
+									$("#mobile_gift_type")>$("[value|='" + category_val + "']").attr('selected','selected');
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$.each(data.result,function(i,item){
+											//console.log(data.result);
+											var index = i + 1;
+											$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\"> <div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"> </div> <p class=\"item_name\">" + item['title'] +"</p><p class=\"item_content\" style=\"padding:5% 0px 5% 0px;\"> 安全币<span class=\"item_cost\"> " + item['price'] + "</span>已兑换<span class=\"item_exchangednum\">" + item['redeemed'] + "</span>个</p><a class=\"mod-btn mod-btn-shop-white\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">兑换</a></li>");
+										});
+									}else{
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									$("#mod-itemlist-shop").empty();
+								}
+							});
+		}
+		
+		function check_my_redeem(){
+					var check_state = $("#check_my_redeem").attr('checked');
+					
+					if(check_state!='checked'){
+						location.reload();
+					}
+					
+					if(check_state == "checked"){
+							$.ajax({
+								url: "__ROOT__/user.php?c=gift&a=sortdata",
+								type: "POST",
+								data: {operation:'redeem'},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#mod-itemlist-shop").empty();
+										$.each(data.result,function(i,item){
+											var index = i + 1;
+											$("#mod-itemlist-shop").append("<li class=\"itemlist_item mod-floatblock\"><a href=\"./user.php?m=user&c=gift&a=add&gid=" + item['id'] + "\"> <div class=\"item_pic\"><img src=\""+item['url']+"\" alt=\"\"> </div> <p class=\"item_name\">" + item['title'] +"</p><p class=\"item_content\" style=\"padding:5% 0px 5% 0px;\"> 安全币<span class=\"item_cost\"> " + item['price'] + "</span>已兑换<span class=\"item_exchangednum\">" + item['redeemed'] + "</span>个</p><a class=\"mod-btn mod-btn-shop-white\" href=\"./user.php?m=user&c=gift&a=add&gid="+ item['id'] +"\">兑换</a></li>");
+										});
+									}else{
+										$("#mod-itemlist-shop").empty();
+									}
+								},
+								error: function () {
+									$("#mod-itemlist-shop").empty();
+								}
+							});
+					} else{
+						$("#category_all").trigger("click");
+					}
+		}
+		
+</script>
+<include file="Public/footer" />

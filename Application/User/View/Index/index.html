@@ -1,0 +1,80 @@
+<include file="Public/header" title="个人中心" banner_selected="nav_item-active"/>
+  <div class="container container-user container-user-center">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="{:('index/index')}">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item nav_item-active"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+                        <div class="user_body">
+                            <div class="body_header">
+                                <div class="header_user">
+                                    <div class="user_avatar"><img class="mod-avatar-100" src="__PUBLIC__/Uploads/{:session('avatar')}" alt=""></div>
+                                    <div class="user_info">
+                                        <p class="info_name">{:session('username')}</p>
+                                        <p class="info_team">团队：{$binfo['team']}</p>
+                                        <p class="info_contribute"><span class="contribute_text">贡献值：</span><span class="contribute_num">{$binfo['jifen']}分</span></p>
+                                        <p class="info_signature">个性签名：{$binfo['description']}</p>
+                                        <a class="info_modify" href="{:U('info/update')}">修改个人信息 >></a>
+                                    </div>
+                                    <a class="mod-btn mod-btn-black" href="__ROOT__/index.php?m=&c=hall&a=view&pid={$binfo['pid']}" target="_blank">我的个人主页</a>
+                                </div>
+                            </div>
+                            <div class="body_content">
+                                <ul class="content_list">
+                                    <li class="list_item list_item-1">
+                                        <i class="item_pic"></i>
+                                        <div class="item_content">
+                                            <p class="content_title"><span class="title_text">我的安全币</span><span class="title_num">{$binfo['jinbi']}</span></p>
+                                            <a class="content_detail" href="{:U('gift/record')}">安全币明细 >></a>
+                                        </div>
+                                    </li>
+
+                                    <li class="list_item list_item-2">
+                                        <i class="item_pic"></i>
+                                        <div class="item_content">
+                                            <p class="content_title"><span class="title_text">我发现的漏洞</span><span class="title_num">{$pnum}</span><span class="title_text">个</span></p>
+                                            <a class="content_detail" href="{:U('post/index')}">报告漏洞的详情 >></a>
+                                        </div>
+                                    </li>
+
+                                    <li class="list_item list_item-3">
+                                        <i class="item_pic"></i>
+                                        <div class="item_content">
+                                            <p class="content_title"><span class="title_text">我所有的礼品</span><span class="title_num">{$gift}</span><span class="title_text">个</span></p>
+                                            <a class="content_detail" href="{:U('gift/order')}">礼品详情 >></a>
+                                        </div>
+                                    </li>
+
+                                    <li class="list_item list_item-4">
+                                        <i class="item_pic"></i>
+                                        <div class="item_content">
+                                            <p class="content_title"><span class="title_text">我的新消息</span><span class="title_num">{$message}</span><span class="title_text">条</span></p>
+                                            <a class="content_detail" href="{:U('message/index')}">消息中心 >></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<include file="Public/footer"/>

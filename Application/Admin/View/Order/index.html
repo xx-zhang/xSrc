@@ -1,0 +1,76 @@
+<include file="Public/header" title="订单管理 - 企业安全应急响应与缺陷管理中心" links_status="open" orders_color="#6164C1;"/>
+
+<div class="main-content">
+    <div class="row">
+	<div class="col-md-6">
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary" style="margin : 2px 0px 2px 0px;">筛选订单</button>
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="margin : 2px 0px 5px 0px;">
+				<span class="caret"></span>
+				<span class="sr-only">切换下拉菜单</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="{:U('order/index')}">全部</a></li>
+				<li><a href="{:U('order/index?key=0')}">未处理</a></li>
+				<li><a href="{:U('order/index?key=1')}">已发货</a></li>
+				<li><a href="{:U('order/index?key=2')}">已完成</a></li>
+			</ul>
+		</div>
+	<div class="btn-group">
+			<button type="button" class="btn btn-primary" style="margin : 2px 0px 5px 0px;">导出订单</button>
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="margin : 2px 0px 5px 0px;">
+				<span class="caret"></span>
+				<span class="sr-only">切换下拉菜单</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="{:U('order/portall?token=')}{:session('token')}">全部</a></li>
+				<li><a href="{:U('order/portall?type=0&token=')}{:session('token')}">未处理</a></li>
+				<li><a href="{:U('order/portall?type=1&token=')}{:session('token')}">已发货</a></li>
+				<li><a href="{:U('order/portall?type=2&token=')}{:session('token')}">已完成</a></li>
+			</ul>
+	</div>
+	</div>
+	<div class="col-md-6">
+            <form action="{:U('order/index')}" method="post">
+                <div class="form-group input-group" style="margin : 2px 0px 5px 0px;">
+                    <input type="text" class="form-control" name="key" placeholder="输入用户名、真实姓名或礼品名搜索...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="no-more-tables">
+    <table class="table m-b-0">
+        <thead>
+            <tr>
+                <th>订单编号</th>
+				<th>礼品名称</th>
+				<th>用户名</th>
+                <th>真实姓名</th>
+				<th>状态</th>
+				<th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        <foreach name="model" item="v">
+            <tr>
+                <td data-title="订单编号">{$v.id}</td>
+				<td data-title="礼品名称">{$v.gid}</td>
+				<td data-title="用户名">{$v.username}</td>
+                <td data-title="真实姓名">{$v.realname}</td>
+				<td data-title="状态"><if condition="$v.finish eq 0"><span class="label label-danger">未处理</span>
+                    <elseif condition="$v.finish eq 1" /><span class="label label-success">已发货</span>
+					<elseif condition="$v.finish eq 2" /><span class="label label-default">已完成</span>
+                    </if></td>
+				<td data-title="操作"><a href="{:U('order/update',array('id'=>$v['id']))}" target="_Blank">查看</a> | <a href="{:U('order/delete?id=')}{$v.id}&token={:session('token')}" style="color:red;" onclick="javascript:return confirm('您真的确定要删除吗？\n删除后将不能恢复!');">删除</a></td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+   </div>
+    {$page}
+</div>
+
+<include file="Public/footer" />

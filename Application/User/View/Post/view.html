@@ -1,0 +1,246 @@
+<include file="Public/header" title="报告详情" report="navselected"/>
+
+        <div class="container container-user container-user-report-detail">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <h2 class="body_title">SRC-{$model.time|date="Y",###}-{$model.id} | {$model.title}</h2>
+
+                            <div class="body_block body_block-progress">
+                                <h3>处理进度</h3>
+                                <div class="mod-progress">
+                                    <ul class="progress_list">
+                                        <if condition="$model.type eq 1"><li class="list_item list_item-active">审核中</li>
+                                        <li class="list_item">已确认</li>
+                                        <li class="list_item">已修复</li>
+                                        <li class="list_item">完成</li>
+										<elseif condition="$model.type eq 3" />
+										<li class="list_item list_item-passed">审核中</li>
+                                        <li class="list_item list_item-active">已确认</li>
+                                        <li class="list_item">已修复</li>
+                                        <li class="list_item">完成</li>
+										<elseif condition="$model.type eq 4" />
+										<li class="list_item list_item-passed">审核中</li>
+                                        <li class="list_item list_item-passed">已确认</li>
+                                        <li class="list_item list_item-active">已修复</li>
+                                        <li class="list_item">完成</li>
+										<elseif condition="$model.type eq 2" />
+										<li class="list_item list_item-passed">审核中</li>
+                                        <li class="list_item list_item-passed">已确认</li>
+                                        <li class="list_item list_item-passed">已修复</li>
+                                        <li class="list_item list_item-active">已忽略</li>
+										<elseif condition="$model.type eq 5" />
+										<li class="list_item list_item-passed">审核中</li>
+                                        <li class="list_item list_item-passed">已确认</li>
+                                        <li class="list_item list_item-passed">已修复</li>
+                                        <li class="list_item list_item-active">完成</li>
+										</if>
+                                    </ul>
+                                </div>
+                            </div>
+							
+							<if condition="$model.type eq 4">
+							<div style="margin-top:30px;padding:20px;border-top:1px solid #d9d9d9;border-bottom:1px solid #d9d9d9;">
+                                <div>
+                                    请确认漏洞是否已修复？
+                                    <a class="mod-btn mod-btn-blue" href="{:U('post/confirm?rid=')}{$model.id}">确认修复</a>
+                                </div>
+                            </div>
+							</if>
+
+                            <div class="body_block body_block-info">
+                                <h3>基本信息</h3>
+                                <div class="block_content">
+                                    <div class="content_leftblock">
+                                        <p class="content_time">提交时间：<span>{$model.time|date="Y-m-d H:i:s",###}</span></p>
+                                        <p class="content_type">漏洞类型：<span>{$model.category_title}</span></p>
+                                    </div>
+                                    <div class="content_rightblock">
+                                        <p class="content_rank">危害等级评定：<if condition="$model.rank eq 1"><span class="colortips-gray">无影响</span>
+                                        <elseif condition="$model.rank eq 2" /><span class="colortips-black">低危</span>
+                                        <elseif condition="$model.rank eq 3" /><span class="colortips-orange">中危</span>
+                                        <elseif condition="$model.rank eq 4" /><span class="colortips-red">高危</span>
+                                        </if></p>
+                                        <p class="content_coins">安全币评定：<span>{$model.bounty}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="body_block body_block-detail">
+                                <h3>漏洞详情</h3>
+                                <div>
+                                   {$model.content|htmlspecialchars_decode|waf}
+                                </div>
+								<div>
+									<br/>
+									<if condition="$model.attachment neq ''">
+										<p>附件：<span><a href="__PUBLIC__/Uploads/{$model.attachment}" style="color:#007cfa;" target="_blank">点击下载</a></span></p>
+									</if>
+								</div>
+                            </div>
+
+                            <div class="body_block body_block-log">
+                                <h3>状态变更详情</h3>
+                                <div class="mod-sheet">
+                                    <div class="sheet_body">
+                                        <table class="body_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="th-1">处理时间</th>
+                                                    <th class="th-2">处理详情</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+												<foreach name="pstat" item="pstat_val">
+                                                <tr>
+                                                    <td>{$pstat_val.time|strtotime|date="Y年m月d日",###}</td>
+                                                    <td>{$pstat_val.content}</td>
+                                                </tr>
+                                                </foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="block-log_qq">
+                                    <span>遇到问题？对反馈有异议？请联系</span>
+                                    <a class="mod-btn mod-btn-qq" href="http://wpa.qq.com/msgrd?v=3&uin={$site_qq}&site=qq&menu=yes" target="_blank"><i class="i-qq"></i>工作人员</a>
+                                </div>
+                            </div>
+
+                            <div class="mod-form-comment body_block body_block-comment">
+                                <h3>漏洞留言</h3>
+                                <div class="comment_list">
+                                    <ul>
+									<foreach name="comment" item="v">
+										<if condition="$v.admin_name eq '匿名用户'">
+											<li class="list_item">
+												<div class="item_avatar">
+													<img class="mod-avatar mod-avatar-50" src="__PUBLIC__/Uploads/comment_user_avatar.png" alt=""></a>
+												</div>
+												<div class="item_user">
+													<a class="user_name">{$v.user_name}</a>
+													<p class="user_comment">{$v.content}</p>
+												</div>
+												<span class="item_time">
+													{$v.update_time|date="Y年m月d日",###}
+												</span>
+											</li>
+                                        <else/>
+											<li class="list_item">
+												<div class="item_avatar">
+													<img class="mod-avatar mod-avatar-50" src="__PUBLIC__/Uploads/comment_admin_avatar.png" alt=""></a>
+												</div>
+												<div class="item_user">
+													<a class="user_name">{$v.admin_name} (管理员)</a>
+													<p class="user_comment">{$v.content}</p>
+												</div>
+												<span class="item_time">
+													{$v.update_time|date="Y年m月d日",###}
+												</span>
+											</li>
+										</if>
+									</foreach>
+                                </div>
+                                <div class="comment_textarea">
+                                    <textarea name="" id="comment_content" cols="30" rows="10" placeholder="您可以在此对管理员留言"></textarea>
+									<input hidden id="post_id" type="text" value="{$model.id}">
+                                </div>
+                                <div class="comment_verify">
+                                    <input id="verify_code" type="text" name="verify" placeholder="验证码" >
+                                    <img onclick="refresh_captcha();" id="verify" src="{:U('login/verify')}" alt="点击刷新"/>
+                                    <a onclick="refresh_captcha();">换一张</a>
+                                    <span class="formtips-error">您输入的验证码有误，请重新输入</span>
+                                </div>
+                                <div class="comment_submit">
+                                    <a class="mod-btn mod-btn-blue" onclick="submit_comment();">提交留言</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+		<!--弹出层-->
+		<div id="comment_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">留言成功!</p>
+							<p class="content_text">感谢您提交留言，管理员将尽快回复。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回报告</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<div id="comment_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">留言失败!</p>
+							<p id="fail_detail" class="content_text">操作错误，请尝试重新提交。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回报告</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+<script>
+    function refresh_captcha(){
+            var src = "{:U('login/verify')}";
+            var random = Math.floor(Math.random()*(1000+1));
+            $("#verify").attr("src",src+"&random="+random);
+    }
+</script>
+<script>
+function submit_comment(){
+				var  verify_code_val = $("#verify_code").val();
+				var  post_id_val = $("#post_id").val();
+				var  comment_content_val = $("#comment_content").val();
+                $.ajax({
+                    url: "__ROOT__/user.php?m=user&c=post&a=comment",
+                    type: "POST",
+                    data: {post_id:post_id_val,content:comment_content_val,verify:verify_code_val},
+                    success: function (data) {
+                        if (data.status == "1") {
+							$("#comment_success").css("display","block");
+                        }else{
+							$("#comment_fail").css("display","block");
+							$("#fail_detail").text(data.info);
+                        }
+                    },
+                    error: function () {
+						$("#comment_fail").css("display","block");
+						$("#fail_detail").text(data.info);
+                    }
+                });
+}
+</script>
+<include file="Public/footer" />

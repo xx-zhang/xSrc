@@ -1,0 +1,20 @@
+<?php
+return array(
+'MODULE_ALLOW_LIST' => array('Home','Admin',),
+'LOAD_EXT_CONFIG'   => 'db',
+'URL_CASE_INSENSITIVE'  =>  true,
+'URL_MODEL'   =>0,
+'URL_HTML_SUFFIX'  =>'html',
+'SHOW_ERROR_MSG'        =>  true,
+'MAIL_ADDRESS'=>'1@qq.com',
+'MAIL_SMTP'=>'smtp.qq.com',
+'MAIL_LOGINNAME'=>'1@qq.com',
+'MAIL_PASSWORD'=>'smtp',
+'MAIL_CHARSET'=>'UTF-8',
+'MAIL_AUTH'=>true,
+'MAIL_HTML'=>true,
+"MAIL_SMTPSECURE" => 'ssl',
+'NOTIFY_EMAIL'=>'1@qq.com',
+'COOKIE_HTTPONLY'  =>  1,
+'REQUEST_VARS_FILTER' => true,
+);

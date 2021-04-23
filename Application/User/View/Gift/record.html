@@ -1,0 +1,83 @@
+<include file="Public/header" title="我的安全币" gift="navselected"/>
+        <div class="container container-user container-user-coins">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <div class="body_header">
+                                <div class="header_coins">
+                                    <div class="coins_pic"><i></i></div>
+                                    <div class="coins_info-1">
+                                        <p class="info-1_balance">
+											<br/>
+                                            <span class="balance_text">我的账户余额</span>
+                                            <span class="balance_coins"><span class="coins_num">{$account['jinbi']}</span>安全币</span>
+                                        </p>
+                                        <!--<a class="info-1_detail" href="">安全币兑换细则 >></a>-->
+                                    </div>
+                                    <a class="mod-btn mod-btn-black" href="{:U('gift/index')}">兑换礼品</a>
+                                </div>
+                            </div>
+                            <div class="body_content">
+                                <div class="mod-sheet">
+                                    <div class="sheet_header">
+                                        <p class="header_title">安全币记录</p>
+                                    </div>
+                                    <div class="sheet_body">
+                                        <table class="body_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="th-1">时间</th>
+                                                    <th class="th-2">内容</th>
+                                                    <th class="th-3">详情</th>
+                                                    <!--<th class="th-4">余额</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+												<foreach name="record" item="v">
+													<tr>
+															<td style="text-align:center">{$v.time|date="Y/m/d",###}</td>
+															<td style="text-align:center">{$v.content}</td>
+															<td style="text-align:center"><a title="{$v.name}">{$v.name}</a></td>
+															<!--<td>600</td>-->
+													</tr>
+												</foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mod-pageflip">
+										<ul>
+											{$page}
+										</ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+<include file="Public/footer" />

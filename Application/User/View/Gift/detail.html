@@ -1,0 +1,160 @@
+<include file="Public/header" title="订单确认" gift="navselected"/>
+<div class="container container-user container-user-shop-detail">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <h2 class="body_title">处理流程</h2>
+
+                            <div class="body_block body_block-progress">
+                                <!-- <h3>处理进度</h3> -->
+                                <div class="mod-progress">
+                                    <ul class="progress_list">
+										<if condition="$detail.finish eq 0"><li class="list_item list_item-passed">已下单</li>
+                                        <li class="list_item list_item-active">备货中</li><li class="list_item">发货</li><li class="list_item">收货</li>
+										<elseif condition="$detail.finish eq 1" /><li class="list_item list_item-passed">已下单</li>
+                                        <li class="list_item list_item-passed">备货中</li><li class="list_item list_item-active">发货</li><li class="list_item">收货</li>
+										<elseif condition="$detail.finish eq 2" /><li class="list_item list_item-passed">已下单</li>
+                                        <li class="list_item list_item-passed">备货中</li><li class="list_item list_item-passed">发货</li><li class="list_item list_item-active">收货</li>
+										</span>
+										</if></span></p>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <if condition="$detail.finish eq 1"><div class="body_block body_block-confirm">
+                                <div>
+                                    亲，收到商品了吗?
+                                    <a class="mod-btn mod-btn-blue" onclick="confirm_received();">确认收货</a>
+                                    <!--<span class="block-confirm_tips"><span class="tips_time">3天10小时</span> 后将自动确认收货</span>-->
+                                </div>
+                            </div></if>
+
+                            <div class="body_block body_block-order">
+                                <h3>订单信息</h3>
+                                <div class="block_content">
+                                    <p class="content_acceptor">收货人：<span>{$detail.realname}</span></p>
+                                    <p class="content_phone">联系电话：<span>{$detail.tel}</span></p>
+                                    <p class="content_address">收货地址：<span>{$detail.address}</span></p>
+                                    <p class="content_expressnum">快递单号：<span>{$detail.trackingno}</span><a href="http://www.kuaidi100.com/" target="_blank"> （<span style="color:#007cfa;">查询快递</span>） </a></p>
+									<p class="content_order">订单状态：<span><if condition="$detail.finish eq 0"><span>工作人员正在马不停蹄地处理订单，请耐心等待。</span>
+									<elseif condition="$detail.finish eq 1" /><span>礼品兑换订单已经发出，如有疑问请与我们联系。</span>
+									<elseif condition="$detail.finish eq 2" /><span>礼品订单已经完成，如有疑问请与我们联系。</span>
+									</span>
+									</if></span></p>
+                                </div>
+                            </div>
+
+                            <div class="body_block body_block-log">
+                                <h3>兑换信息</h3>
+                                <div class="mod-sheet">
+                                    <div class="sheet_body">
+                                        <table class="body_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="th-1">商品详情</th>
+                                                    <th class="th-2">数量</th>
+                                                    <th class="th-3">消费金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <!--<div class="table_pic">
+                                                            <img src="../dist/images-test/user/test-user-goods-watch.png" alt="">
+                                                        </div>-->
+                                                        <div class="table_name">
+                                                            <p>{$detail.gid}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>{$detail.num}个</td>
+                                                    <td>{$detail.price} * {$detail.num}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <p class="block-log_deliverytime">礼品寄送时间：<span class="colortips-red">每个月月初寄送上一个月兑换的礼品</span></p>
+
+                                <!--<div class="block-log_qq">
+                                    <span>礼品物流出现问题？礼品错误了？想取消礼品了？请联系</span>
+                                    <a class="mod-btn mod-btn-qq" href=""><i class="i-qq"></i>工作人员</a>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+</div>
+		<!--弹出层-->
+		<div id="confirm_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">收货成功!</p>
+							<p class="content_text">确认收货成功，返回页面查看。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<div id="confirm_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">收货失败!</p>
+							<p class="content_text">确认收获失败，请尝试重新提交。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+<script>
+	function confirm_received(){
+			$.ajax({
+								url: "__ROOT__/user.php?m=user&c=gift&a=confirm",
+								type: "POST",
+								data: {oid:{$detail.id}},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#confirm_success").css("display","block");
+									}else{
+										$("#confirm_fail").css("display","block");
+									}
+								},
+								error: function () {
+									$("#confirm_fail").css("display","block");
+								}
+			});
+	}
+</script>
+<include file="Public/footer" />

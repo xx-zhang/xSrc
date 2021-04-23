@@ -1,0 +1,83 @@
+<include file="Public/header" title="公告" annoucment_banner="nav_item-active"/>
+<div class="container container-announcementdetail">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="../">首页</a><a href="{:U('page/index')}"> / 公告新闻</a><span> / {$model.title}</span></p>
+                    </div>
+                </div>
+
+                <div class="section section-article">
+                    <div class="section_article">
+                        <div class="article_header">
+                            <div class="header_title">
+                                <h1 class="title_content">{$model.title}</h1>
+                                <p class="title_info">公告编号：<span class="info_id">TPSA15-18</span>公告来源：<span class="info_source">TSRC</span>发布日期：<span class="info_date">{$model.update_time|date="Y/m/d",###}</span></p>
+                            </div>
+
+                            <div class="mod-share-dropdown">
+                                <div class="mod-btn mod-btn-shop-black"><i class="i-share"></i>分享</div>
+                                <div class="share_dropdownpanel">
+                                    <div>
+                                        <div class="dropdownpanel_links">
+                                            <ul class="links_list">
+                                                <li class="list_item list_item-weixin mod-qrcode">
+                                                    <a href=""><i class="i-weixin"></i></a>
+                                                    <div class="qrcode">
+                                                        <div class="qrcode_pic">
+                                                            <img src="../dist/images-test/qrcode.png" alt="">
+                                                        </div>
+                                                        <span class="qrcode_text">扫一扫关注 TSRC 公众号</span>
+                                                    </div>
+                                                </li>
+                                                <li class="list_item">
+                                                    <a href=""><i class="i-weibo-sina"></i></a>
+                                                </li>
+                                                <li class="list_item">
+                                                    <a href=""><i class="i-weibo-tencent"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="dropdownpanel_copyright">版权所有，转载请注明出处!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article_body">
+                            <?php 
+								$html = $model['content'];
+								echo html_entity_decode($html);
+							?>
+                        </div>
+
+                        <div class="article_footer">
+                            <div class="mod-share-normal">
+                                <div class="share_links">
+                                    <span>分享到</span>
+                                    <ul class="links_list">
+                                        <li class="list_item list_item-weixin mod-qrcode">
+                                            <a href=""><i class="i-weixin"></i></a>
+                                            <div class="qrcode">
+                                                <div class="qrcode_pic">
+                                                    <img src="../dist/images-test/qrcode.png" alt="">
+                                                </div>
+                                                <span class="qrcode_text">扫一扫关注 TSRC 公众号</span>
+                                            </div>
+                                        </li>
+                                        <li class="list_item">
+                                            <a href=""><i class="i-weibo-sina"></i></a>
+                                        </li>
+                                        <li class="list_item">
+                                            <a href=""><i class="i-weibo-tencent"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="share_copyright">版权所有，转载请注明出处!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+<include file="Public/footer"/>

@@ -1,0 +1,224 @@
+<include file="Public/header" title="个人信息 | 企业安全应急响应与缺陷管理中心" banner_selected="dropdown_item-active"/>
+
+    <div class="container container-user container-user-account-detail">
+        <div>
+            <div class="section section-user">
+                <div class="section_user">
+                    <div class="user_body">
+                        <div class="body_header">
+                            <div class="header_user">
+                                <!-- <span>基本信息</span> -->
+                            </div>
+                        </div>
+															
+                        <div class="body_content">
+                            <p class="content_title">基本信息</p>
+							<foreach name="info" item="v">	
+                            <ul class="content_list">
+                                <li class="list_item list_item-avatar">
+                                    <span class="item_title">头像</span>
+                                    <div><img style="height:100px;width:100px;border-radius: 50%;-moz-border-radius:50%;-webkit-border-radius:50%;" src="__PUBLIC__/Uploads/{$v.avatar}" alt=""></div>
+                                </li>
+                            </ul>
+                            <ul class="content_list">
+                                <li class="list_item list_item-nickname">
+                                    <span class="item_title">昵称</span><span class="item_content">{$v.username}</span>
+                                </li>
+                                <li class="list_item list_item-name">
+                                    <span class="item_title">真实姓名</span><span class="item_content">{$v.realname}</span>
+                                </li>
+                                <li class="list_item list_item-email">
+                                    <span class="item_title">电子邮箱</span><span class="item_content">{$v.email}</span>
+                                </li>
+                                <li class="list_item list_item-phone">
+                                    <span class="item_title">移动电话</span><span class="item_content">{$v.tel}</span>
+                                </li>
+                            </ul>
+
+                            <ul class="content_list">
+                                <li class="list_item list_item-qq">
+                                    <span class="item_title">QQ 号码</span><span class="item_content">{$v.qqnumber}</span>
+                                </li>
+                                <li class="list_item list_item-wechat">
+                                    <span class="item_title">微信</span><span class="item_content">{$v.wechat}</span>
+                                </li>
+                                <li class="list_item list_item-homepage">
+                                    <span class="item_title">个人主页</span><span class="item_content">{$v.website}</span>
+                                </li>
+                                <li class="list_item list_item-team">
+                                    <span class="item_title">团队</span><span class="item_content">{$v.team}</span>
+                                </li>
+                            </ul>
+							</foreach>
+                            <ul class="content_list">
+                                <li class="list_item list_item-signature">
+                                    <span class="item_title">个人简介</span><span class="item_content">{$v.description}</span>
+                                </li>
+                            </ul>
+
+                            <!--<div class="content_modify">
+                                <a href="">修改基本信息</a>
+                            </div>-->
+
+                            <div class="content_address">
+                                <p class="address_title">地址管理</p>
+                                <ul class="address_list">
+									<foreach name="adress_info" item="v">
+										<li class="mod-address mod-address-added <if condition="$v.default eq 1">mod-address-added-default</if>">
+											<p class="address_acceptor">
+												<span class="acceptor_name">{$v.realname}</span>
+												<span class="acceptor_phone">{$v.mobile}</span>
+											</p>
+											<p class="address_detail">{$v.adetail}</p>
+											<i class="i-mod-address-default"></i>
+										</li>
+									</foreach>
+                                </ul>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script>
+			function submit_add_address(){
+							//var  verify_code_val = $("#verify_code").val();
+							var  adetail_val = $("#adetail").val();
+							var  mobile_val = $("#mobile").val();
+							var  zipcode_val = $("#zipcode").val();
+							var  realname_val = $("#realname").val();
+							var  default_val = $('#default').attr('checked');
+							if (default_val == 'checked'){
+								default_val = "1";
+							} else {
+								default_val = "0";
+							}
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=add_address",
+								type: "POST",
+								data: {realname:realname_val,zipcode:zipcode_val,mobile:mobile_val,adetail:adetail_val,default:default_val},
+								success: function (data) {
+									if (data.status == "1") {
+										//alert('Success');
+										//var figureurl = "__PUBLIC__/Uploads/" + data.savepath
+										//$("#figureurl").attr("src",figureurl);
+										$("#address_success").css("display","block");
+									}else{
+										//alert('Fail');
+										//alert(data.msg);
+										$("#address_fail").css("display","block");
+									}
+									//$("#imgWait").hide();
+								},
+								error: function () {
+									//alert('Fail');
+									//alert("上传失败！");
+									$("#address_fail").css("display","block");
+									//$("#imgWait").hide();
+								}
+							});
+			}
+			
+			
+			function submit_edit_address(){					
+							var  adetail_val = $("#edit_adress_adetail").val();
+							var  mobile_val = $("#edit_adress_mobile").val();
+							var  zipcode_val = $("#edit_adress_zipcode").val();
+							var  realname_val = $("#edit_adress_realname").val();
+							var  adress_id_val = $("#edit_adress_id").val();
+							var  default_val = $('#edit_adress_default').attr('checked');
+							if (default_val == 'checked'){
+								default_val = "1";
+							} else {
+								default_val = "0";
+							}
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=edit_address",
+								type: "POST",
+								data: {id:adress_id_val,realname:realname_val,zipcode:zipcode_val,mobile:mobile_val,adetail:adetail_val,default:default_val},
+								success: function (data) {
+									if (data.status == "1") {
+										//alert('Success');
+										//var figureurl = "__PUBLIC__/Uploads/" + data.savepath
+										//$("#figureurl").attr("src",figureurl);
+										$("#address_success").css("display","block");
+									}else{
+										//alert('Fail');
+										//alert(data.msg);
+										$("#address_fail").css("display","block");
+									}
+									//$("#imgWait").hide();
+								},
+								error: function () {
+									//alert('Fail');
+									//alert("上传失败！");
+									$("#address_fail").css("display","block");
+									//$("#imgWait").hide();
+								}
+							});
+			}
+			
+			function query_address(address_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=query_address",
+								type: "POST",
+								data: {id:address_id},
+								success: function (data) {
+									if (data.status == "1") {
+										//alert('Success');
+										//var figureurl = "__PUBLIC__/Uploads/" + data.savepath
+										//$("#figureurl").attr("src",figureurl);
+										$("#edit_adress_realname").attr("value",data.realname);
+										$("#edit_adress_mobile").attr("value",data.mobile);
+										$("#edit_adress_zipcode").attr("value",data.zipcode);
+										$("#edit_adress_adetail").attr("value",data.adetail);
+										$("#edit_adress_id").attr("value",address_id);
+										if (data.default=="1"){
+											$("#edit_adress_default").attr("checked","checked");
+										}
+									}else{
+										//alert('Fail');
+										//alert(data.msg);
+										$("#address_fail").css("display","block");
+									}
+									//$("#imgWait").hide();
+								},
+								error: function () {
+									//alert('Fail');
+									//alert("上传失败！");
+									$("#address_fail").css("display","block");
+									//$("#imgWait").hide();
+								}
+							});
+							$("#edit_address").css("display","block");
+			}
+			
+			function delete_address(address_id){
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=info&a=delete_address",
+								type: "POST",
+								data: {id:address_id},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#address_success").css("display","block");
+									}else{
+										//alert('Fail');
+										//alert(data.msg);
+										$("#address_fail").css("display","block");
+									}
+									//$("#imgWait").hide();
+								},
+								error: function () {
+									//alert('Fail');
+									//alert("上传失败！");
+									$("#address_fail").css("display","block");
+									//$("#imgWait").hide();
+								}
+							});
+			}
+			
+		</script>
+<include file="Public/footer" />

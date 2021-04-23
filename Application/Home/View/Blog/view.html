@@ -1,0 +1,84 @@
+<include file="Public/header" title="研究博客" blog_banner="nav_item-active"/>
+  <div class="container container-blogdetail">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="{:U('blog/index')}">博客</a><span> / {$model.title}</span></p>
+                    </div>
+                </div>
+
+                <div class="section section-article">
+                    <div class="section_article">
+                        <div class="article_header">
+                            <div class="header_title">
+                                <h1 class="title_content">{$model.title}</h1>
+                                <p class="title_info">作者：<span class="info_author">{$model.author}</span>公布时间：<span class="info_date">{$model.update_time|date="Y/m/d",###}</span></p>
+                            </div>
+                        </div>
+                        <div class="article_body">
+                            <?php 
+							 $html = $model['content'];
+							 echo html_entity_decode($html);
+							?>
+                        </div>
+						<div class="article_footer">
+                            <div class="mod-share-normal">
+                                <div class="share_links">
+                                </div>
+                                <div class="share_copyright">版权所有，转载请注明出处!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="section section-comment">
+                    <div class="mod-form-comment">
+                        <div class="comment_title">
+                            <p>评论留言</p>
+                        </div>
+                        <div class="comment_list">
+                            <ul>
+                                <li class="list_item">
+                                    <div class="item_avatar">
+                                        <a href="user.html"><img src="__PUBLIC__/Index/images-test/blog/test-blog-user-1.png" alt=""></a>
+                                    </div>
+                                    <div class="item_user">
+                                        <a class="user_name" href="user.html">李小聪</a>
+                                        <p class="user_comment">不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!不错的内容，感谢分享!</p>
+                                    </div>
+                                    <span class="item_time">
+                                        2015-08-29 20:15:10
+                                    </span>
+                                </li>
+                                <li class="list_item">
+                                    <div class="item_avatar">
+                                        <a href="user.html"><img src="__PUBLIC__/Index/images-test/i-comment-avatar-default.png" alt=""></a>
+                                    </div>
+                                    <div class="item_user">
+                                        <a class="user_name" href="user.html">couldlin@TSRC</a>
+                                        <p class="user_comment">哈哈，听君一席话，瞬间豁然开朗啊</p>
+                                    </div>
+                                    <span class="item_time">
+                                        2015-08-29 20:15:10
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="comment_textarea">
+                            <textarea name="" id="" cols="30" rows="10" placeholder="您可以在此对管理员留言"></textarea>
+                        </div>
+                        <div class="comment_verify">
+                            <input type="text">
+                            <img src="__PUBLIC__/Index/images-test/report/test-verify-pic.png" alt="">
+                            <a href="">换一张</a>
+                            <span class="formtips-error">您输入的验证码有误，请重新输入</span>
+                        </div>
+                        <div class="comment_submit">
+                            <a class="mod-btn mod-btn-blue">提交评论</a>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+</div>
+<include file="Public/footer"/>

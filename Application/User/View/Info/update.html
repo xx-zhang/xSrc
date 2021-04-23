@@ -1,0 +1,268 @@
+<include file="Public/header" title="修改基本信息" info="navselected"/>
+        <div class="container container-user container-user-account-modify">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <h2 class="body_title">修改基本信息</h2>
+							<foreach name="info" item="v">
+                            <div class="body_block body_block-info">
+                                <div class="mod-form-block mod-form-block-file">
+                                    <label for="">头像</label>
+                                    <div>
+                                        <div>
+                                            <a href="javascript:;" class="uploader mod-btn mod-btn-black">
+                                                <input id="imgFile" type="file" name="photo" onchange="submit_avater();">
+                                                选择文件
+                                            </a>
+                                            <span  class="tips-file">格式限制：jpg、jpeg、png，请上传小于2M的图片
+											</span>
+                                        </div>
+                                        <span id="upload_tips" class="formtips-error" style="">上传失败，请检查文件格式和大小</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-preview">
+                                    <label for="">头像预览</label>
+                                    <div>
+                                        <div class="form-block_preview form-block_preview-100">
+                                            <div><img style="height:100px;width:100px;border-radius: 50%;-moz-border-radius:50%;-webkit-border-radius:50%;" id="figureurl" src="__PUBLIC__/Uploads/{:session('avatar')}"></div>
+											<input type="hidden" id="figureurl_val" value="{$v.avatar}"/>
+                                        </div>
+                                    </div>
+                                </div>
+								</form>
+								
+								<div class="mod-form-block mod-form-block-input mod-form-block-input-email">
+                                    <label for="">账户名</label>
+                                    <div>
+                                        <div>
+                                            <input id="email" name="email" type="text" disabled value="{$v.email}">
+                                        </div>
+                                        <span class="formtips-error">您输入的电子邮箱有误，请重新输入</span>
+                                    </div>
+                                </div>								
+								
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-nickname">
+                                    <label class="label-required" >昵称</label>
+                                    <div>
+                                        <div>
+                                            <input disabled type="text" value="{$v.username}">
+                                        </div>
+                                        <span class="formtips-error">您输入的昵称有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-name">
+                                    <label for="">支付宝</label>
+                                    <div>
+                                        <div>
+                                            <input id="alipay" type="text" value="{$v.alipay}">
+                                        </div>
+                                        <span class="formtips-error">您输入的姓名有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-phone">
+                                    <label class="label-required" for="">移动电话</label>
+                                    <div>
+                                        <div>
+                                            <input id="tel" type="text" value="{$v.tel}">
+                                        </div>
+                                        <span class="formtips-error">您输入的手机号码有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-team">
+                                    <label for="">团队</label>
+                                    <div>
+                                        <div>
+                                            <input id="team" type="text" value="{$v.team}">
+                                        </div>
+                                        <span class="formtips-error">您输入的团队名称有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-homepage">
+                                    <label for="">个人主页</label>
+                                    <div>
+                                        <div>
+                                            <input id="website" type="text" value="{$v.website}">
+                                        </div>
+                                        <span class="formtips-error">您输入的个人主页有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-wechat">
+                                    <label for="">微信</label>
+                                    <div>
+                                        <div>
+                                            <input id="wechat" type="text" value="{$v.wechat}">
+                                        </div>
+                                        <span class="formtips-error">您输入的微信号有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-qq">
+                                    <label for="">QQ号码</label>
+                                    <div>
+                                        <div>
+                                            <input id="qqnumber" type="text" value="{$v.qqnumber}">
+                                        </div>
+                                        <span class="formtips-error">您输入的QQ号有误，请重新输入</span>
+                                    </div>
+                                </div>
+
+                                <div class="mod-form-block mod-form-block-input mod-form-block-input-signature">
+                                    <label for="">个性签名</label>
+                                    <div>
+                                        <div>
+                                            <input id="description" style="width:100%" type="text" value="{$v.description}" />
+                                        </div>
+                                        <span class="formtips-error">您输入的个性签名有误，请重新输入</span>
+                                    </div>
+                                </div>
+								</foreach>
+                                <div class="mod-form-block mod-form-block-verify">
+                                    <label for="">验证码</label>
+                                    <div>
+                                        <div>
+                                            <input id="verify_code" type="text">
+                                            <img id="captcha_img" onclick="refresh_captcha();" class="verify" src="{:U('login/verify')}" alt="点击刷新"/>
+                                            <a onclick="refresh_captcha();">换一张</a>
+                                        </div>
+                                        <span class="formtips-error">您输入的验证码有误，请重新输入</span>
+                                    </div>
+                                </div>
+                                <a class="mod-btn mod-btn-blue" onclick="update_info();">保存提交</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!--弹出层-->
+		<div id="update_success" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">更新成功!</p>
+							<p class="content_text">您的信息更新成功，点击返回查看。</p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+		<div id="update_fail" class="mod-popup mod-popup-report">
+					<div class="popup_mask">
+					</div>
+					<div class="popup_body">
+						<div class="body_content">
+							<p class="content_title">更新失败!</p>
+							<p id="fail_detail" class="content_text"></p>
+						</div>
+						<div class="body_btns">
+							<a class="mod-btn mod-btn-blue mod-btn-close" onclick="window.location.reload()">返回页面</a>
+						</div>
+						<i class="i-close"></i>
+					</div>
+		</div>
+<script>
+    $(function(){
+        $(".verify").click(function(){
+            var src = "{:U('login/verify')}";
+            var random = Math.floor(Math.random()*(1000+1));
+            $(this).attr("src",src+"&random="+random);
+
+        });
+    })
+</script>
+<script>
+function submit_avater(){
+				$("#imgWait").show();
+				$("#upload_tips").css("display","none");
+                var formData = new FormData();
+                formData.append("photo", document.getElementById("imgFile").files[0]);   
+                $.ajax({
+                    url: "__ROOT__/user.php?m=user&c=info&a=upload",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.code == "200") {
+							var figureurl = "__PUBLIC__/Uploads/" + data.savepath
+							$("#figureurl").attr("src",figureurl);
+							$("#figureurl_val").attr("value",data.savepath);
+                        }else{
+							$("#upload_tips").css("display","block");
+                        }
+                    },
+                    error: function () {
+						$("#upload_tips").css("display","block");
+                    }
+                });
+}
+
+function update_info(){
+				var  verify_code_val = $("#verify_code").val();
+				var  description_val = $("#description").val();
+				var  qqnumber_val = $("#qqnumber").val();
+				var  website_val = $("#website").val();
+				var  team_val = $("#team").val();
+				var  tel_val = $("#tel").val();
+				var  email_val = $("#email").val();
+				var  alipay_val = $("#alipay").val();
+				var  figureurl_val = $("#figureurl_val").val();
+				var  wechat_val = $("#wechat").val();
+                $.ajax({
+                    url: "__ROOT__/user.php?m=user&c=info&a=update",
+                    type: "POST",
+                    data: {alipay:alipay_val,email:email_val,tel:tel_val,team:team_val,website:website_val,qqnumber:qqnumber_val,description:description_val,verify:verify_code_val,avatar:figureurl_val,wechat:wechat_val},
+                    success: function (data) {
+                        if (data.status == "1") {
+
+							$("#update_success").css("display","block");
+                        }else{
+							$("#update_fail").css("display","block");
+							$("#fail_detail").text(data.info);
+                        }
+                    },
+                    error: function () {
+						$("#update_fail").css("display","block");
+						$("#fail_detail").text(data.info);
+                    }
+                });
+}
+
+function refresh_captcha(){
+    var src = "{:U('login/verify')}";
+    var random = Math.floor(Math.random()*(1000+1));
+    $("#captcha_img").attr("src",src+"&random="+random);
+}
+</script>
+<include file="Public/footer" />

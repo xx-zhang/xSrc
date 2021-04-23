@@ -1,0 +1,168 @@
+<include file="Public/header" title="我报告的漏洞" report="navselected"/>
+<div class="container container-user container-user-report">
+            <div>
+                <!-- section-subnav 标题-->
+                <div class="section section-subnav">
+                    <div class="section_subnav">
+                        <p class="subnav_title"><a href="user-center.html">个人中心</a></p>
+                    </div>
+                </div>
+
+                <div class="section section-user">
+                    <div class="section_user">
+                        <div class="user_sidebar">
+                            <div class="sidebar_header">
+                                <!-- <p>个人中心</p> -->
+                            </div>
+                            <ul class="sidebar_nav">
+                                <li class="nav_item"><a href="{:U('index/index')}">我的个人中心</a></li>
+                                <li class="nav_item"><a href="{:U('gift/record')}">我的安全币</a></li>
+                                <li class="nav_item nav_item-active"><a href="{:U('post/index')}">我报告的漏洞</a></li>
+                                <li class="nav_item"><a href="{:U('gift/order')}">我的礼品</a></li>
+                                <li class="nav_item"><a href="{:U('message/index')}">消息中心</a></li>
+                                <li class="nav_item"><a href="{:U('info/index')}">我的个人信息</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="user_body">
+                            <div class="body_header">
+                                <div class="header_report">
+                                    <div class="report_pic"><i></i></div>
+                                    <div class="report_info-1">
+                                        <p class="info-1_report">
+											<br/>
+                                            <span class="report_text">我发现的漏洞</span>
+                                            <span class="report_bug"><span class="bug_num">{$post_num}</span>个</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body_content">
+                                <div class="mod-sheet">
+                                    <div class="sheet_header">
+                                        <p class="header_title">漏洞记录</p>
+                                        <div class="header_sift">
+
+                                            <div class="mod-form-search">
+                                                <input id="post_title" class="form-search_input" type="text" placeholder="搜索名称">
+                                                <input class="form-search_submit" type="submit" onclick="search_my_post();" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sheet_body">
+                                        <table class="body_table">
+                                            <thead>
+												<tr>
+													<th class="th-1">提交时间</th>
+													<th class="th-2">漏洞名称</th>
+													<th class="th-3">当前状态</th>
+													<th class="th-4">危害等级</th>
+												</tr>
+                                            </thead>
+                                            <tbody id="post_content">
+												<foreach name="model" item="v">
+													<tr>
+														<td>{$v.time|date="Y/m/d",###}</td>
+														<td><a href="{:U('post/view?rid=')}{$v.id}">{$v.title}</a></td>
+														<if condition="$v.type eq 1"><td class="colortips-black">审核中</td>
+														<elseif condition="$v.type eq 2" /><td class="colortips-gray">已忽略</td>
+														<elseif condition="$v.type eq 3" /><td class="colortips-blue">已确认</td>
+														<elseif condition="$v.type eq 4" /><td class="colortips-green">已修复</td>
+														<elseif condition="$v.type eq 5" /><td class="colortips-green">已完成</td>
+														</if>
+														<if condition="$v.rank eq 1"><td class="colortips-gray">无影响</td>
+														<elseif condition="$v.rank eq 2" /><td class="colortips-black">低危</td>
+														<elseif condition="$v.rank eq 3" /><td class="colortips-orange">中危</td>
+														<elseif condition="$v.rank eq 4" /><td class="colortips-red">高危</td>
+														</if>
+													</tr>
+												</foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mod-pageflip">
+                                        <ul>
+                                           {$page}
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+</div>
+<script>
+function search_my_post(){
+							var  post_title_val = $("#post_title").val();
+							$.ajax({
+								url: "__ROOT__/user.php?m=user&c=post&a=search",
+								type: "POST",
+								data: {title:post_title_val},
+								success: function (data) {
+									if (data.status == "1") {
+										$("#post_content").empty();
+										$.each(data.result,function(i,item){
+											var report_time = beautify_time(item['time']); 
+											if(item['rank']==1){
+												var report_rank = '无影响';
+												var report_rank_color = 'colortips-gray';
+											} else if (item['rank']==2){
+												var report_rank = '低危';
+												var report_rank_color = 'colortips-black';
+											} else if (item['rank']==3){
+												var report_rank = '中危';
+												var report_rank_color = 'colortips-orange';
+											} else if (item['rank']==4){
+												var report_rank = '高危';
+												var report_rank_color = 'colortips-red';
+											} else {
+												var report_rank = '无影响';
+												var report_rank_color = 'colortips-gray';
+											}
+											if(item['type']==1){
+												var report_stage = '审核中';
+												var report_stage_color='colortips-black';
+											} else if (item['type']==2){
+												var report_stage = '已忽略';
+												var report_stage_color='colortips-gray';
+											} else if (item['type']==3){
+												var report_stage = '已确认';
+												var report_stage_color='colortips-blue';
+											} else if (item['type']==4){
+												var report_stage = '已修复';
+												var report_stage_color='colortips-green';
+											} else if (item['type']==5){
+												var report_stage = '已完成';
+												var report_stage_color='colortips-green';
+											}else {
+												var report_stage = '审核中';
+												var report_stage_color='colortips-black';
+											}
+											$("#post_content").append("<tr><td>"+ report_time +"</td><td><a href=\"/xsrc/user.php?m=user&amp;c=post&amp;a=view&amp;rid="+ item['id'] +"\">"+ item['title'] +"</a></td><td class=\""+report_stage_color+"\">"+ report_stage +"</td><td class=\""+report_rank_color+"\">"+report_rank+"</td></tr>");
+										});
+									}else{
+										$("#post_content").empty();
+									}
+								},
+								error: function () {
+									$("#post_content").empty();
+								}
+							});
+}
+
+function beautify_time(time){
+    timestamp = parseInt(time + '000');
+	var newDate = new Date(timestamp);
+	var y = newDate.getFullYear();
+	var m = newDate.getMonth() + 1;
+	var d = newDate.getDate();
+	var after_time = y + '/' + m + '/' + d;
+	return after_time;
+}
+
+</script>
+<include file="Public/footer" />
